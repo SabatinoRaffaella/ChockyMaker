@@ -55,7 +55,7 @@ p{
     flex-wrap: wrap;
 }
 
-#feature .fe-box{
+#feature fe-box{
     width: 180px;
     text-align: center;
     padding: 25px 15px;
@@ -63,7 +63,7 @@ p{
     border: 1px solid  #cce7d0; 
 }
 
-#feature .fe-box .hover{
+#feature .fe-box :hover{
     box-shadow: 10px 10px 54px rgba(78,62,221,0.1);
 }
 
