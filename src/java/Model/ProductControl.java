@@ -101,6 +101,7 @@ public class ProductControl extends HttpServlet {
         @Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+				alert("I'm here!");
 		doGet(request, response);
 	}
 
