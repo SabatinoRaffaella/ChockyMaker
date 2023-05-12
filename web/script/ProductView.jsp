@@ -14,7 +14,7 @@
 
 <!DOCTYPE html>
 <html>
-<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,it.unisa.ProductBean, it.unisa.Cart"%>
+<%@ page contentType="text/html; charset=UTF-8" import="java.util.*,Product, Cart"%>
 
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -36,15 +36,15 @@
 			if (products != null && products.size() != 0) {
 				Iterator<?> it = products.iterator();
 				while (it.hasNext()) {
-					ProductBean bean = (ProductBean) it.next();
+					Product bean = (Product) it.next();
 		%>
 		<tr>
-			<td><%=bean.getCode()%></td>
+			<td><%=bean.getId()%></td>
 			<td><%=bean.getName()%></td>
 			<td><%=bean.getDescription()%></td>
-			<td><a href="product?driver=drivermanager&action=delete&id=<%=bean.getCode()%>">Delete</a><br>
-				<a href="product?driver=drivermanager&action=read&id=<%=bean.getCode()%>">Details</a><br>
-				<a href="product?driver=drivermanager&action=addC&id=<%=bean.getCode()%>">Add to cart</a>
+			<td><a href="product?driver=drivermanager&action=delete&id=<%=bean.getId()%>">Delete</a><br>
+				<a href="product?driver=drivermanager&action=read&id=<%=bean.getId()%>">Details</a><br>
+				<a href="product?driver=drivermanager&action=addC&id=<%=bean.getId()%>">Add to cart</a>
 				</td>
 		</tr>
 		<%
@@ -68,13 +68,15 @@
 			<th>Code</th>
 			<th>Name</th>
 			<th>Description</th>
+			<th>Brand</th>
 			<th>Price</th>
 			<th>Quantity</th>
 		</tr>
 		<tr>
-			<td><%=product.getCode()%></td>
+			<td><%=product.getId()%></td>
 			<td><%=product.getName()%></td>
 			<td><%=product.getDescription()%></td>
+			<td><%=product.getBrand()%></td>			
 			<td><%=product.getPrice()%></td>
 			<td><%=product.getQuantity()%></td>
 		</tr>
@@ -107,12 +109,12 @@
 			<th>Name</th>
 			<th>Action</th>
 		</tr>
-		<% List<ProductBean> prodcart = cart.getProducts(); 	
-		   for(ProductBean beancart: prodcart) {
+		<% List<Product> prodcart = cart.getProducts(); 	
+		   for(Product beancart: prodcart) {
 		%>
 		<tr>
 			<td><%=beancart.getName()%></td>
-			<td><a href="product?action=deleteC&id=<%=beancart.getCode()%>">Delete from cart</a></td>
+			<td><a href="product?action=deleteC&id=<%=beancart.getId()%>">Delete from cart</a></td>
 		</tr>
 		<%} %>
 	</table>		
