@@ -1,27 +1,48 @@
 package Model;
 public class Product {
-    private String id;
+    private int id;
     private String description;
-    private String type;
+    private String name;
     private String brand;
+    private int quantity;
+    private double price;
 
-    public Product(String description, String type, String brand,String id) {
-        this.description = description;
-        this.type = type;
-        this.brand = brand;
-        this.id = id;
+    public Product() {
+    id = -1;
+    name = "";
+    description = "";
+    quantity = 0;
+    brand="";
+    price =0.0;
+
     }
 
-    public String getId() {
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
     @Override
     public String toString(){
-        return "\n Here are all info: Id is: "+getId()+"\n Brand is: "+getBrand()+"\n Type of the product: "+getType()+"\n"
+        return "\n Here are all info: Id is: "+getId()+"\n Brand is: "+getBrand()+"\n Type of the product: "+getName()+"\n"
                 +"Description:"+"\n"+ getDescription()+"\n";
     }
 
@@ -33,12 +54,12 @@ public class Product {
         this.description = description;
     }
 
-    public String getType() {
-        return type;
+    public String getName() {
+        return name;
     }
 
     public void setType(String type) {
-        this.type = type;
+        this.name = type;
     }
 
     public String getBrand() {
@@ -47,6 +68,10 @@ public class Product {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
     
     

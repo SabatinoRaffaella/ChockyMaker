@@ -12,6 +12,7 @@ public class Order {
     private String description;
     private ArrayList product_list;
     
+    
     public Order(){
         this.dateOrder = null;
         this.numItem = 0;

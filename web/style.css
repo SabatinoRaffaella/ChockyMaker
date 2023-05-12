@@ -43,8 +43,8 @@ h4{
 
 
 p{
-    font-size: 16px;
-    color: lightgreen;
+    font-size: 20px;
+    color: darkseagreen;
     margin: 15px 0 20px 0;
 }
 
@@ -60,24 +60,29 @@ p{
     text-align: center;
     padding: 25px 15px;
     box-shadow: 20px 20px 34px rgba(0,0,0,0.03);
-    border: 1px solid  #cce7d0; 
+    border: 1px solid  #cce7d0;
 }
 
-#feature .fe-box hover{
+#feature .fe-box :hover{
     box-shadow: 10px 10px 54px rgba(78,62,221,0.1);
 }
-
+/*
+	color: rgb(254,247,226);
+    background-color: rgb(119,62,11);
+*/
 #feature .fe-box h6{
     padding: 9px 8px 6px 8px;
+	font-size: 18px;
     line-height: 1;
     border-radius: 4px;
-    color:  darkolivegreen;
-    background-color: darkseagreen;
+    color: rgb(119,62,11);
+    background-color: rgb(254,247,226);
 }
 
 #feature .fe-box img{
     width: 100%;
     margin-bottom: 10px;
+	
 }
 
 /*Settiamo - impostiamo le proprietà degli elementi centrali:
@@ -85,7 +90,7 @@ Quindi dell'immagine in background e del testo, flex (allineamento degli item)
 Che setteremò per incollonare il testo al centro.
 */
 #hero{
-    background-image: url("img/hot chocky2.jpg");
+    background-image: url("img/hotchocky2.png");
     height: 90vh;
     width: 100%;
     background-position: top 25% right 0;
@@ -124,7 +129,7 @@ Che setteremò per incollonare il testo al centro.
     align-items: center;
     justify-content: space-between;
     padding: 20px 80px;
-    background-color:   darkseagreen;
+    background-color:   #6C1908;
     box-shadow: 0px 15px rgba(22,12,89,0.06);
     z-index: 999;
     top: 0;
@@ -196,7 +201,12 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 #product1{
     text-align: center;
 }
-
+#product1 h2{
+	color: rgb(119,62,11);
+}
+#product1 p{
+	color: burlywood;
+}
 #product1 .pro-container{
     display: flex;
     justify-content: space-between;
@@ -315,10 +325,109 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
      color:  chocolate;
 }
 
+#newsletter{
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	align-items: center;
+	background-image: url("img/banner/newsletter.png");
+	background-repeat: no-repeat;
+	background-position: 10% 20%;
+	background-color: seagreen;
+}
 
+#newsletter h4{
+	font-size: 22px;
+	font-weight: 700;
+	
+	
+}
+#newsletter p{
+	font-size: 14px;
+	font-weight: 600;
+	color: #556B2F;
+	
+}
+#newsletter p span{
+	color: darkgoldenrod;
+	
+}
+#newsletter input{
+	height: 3.125rem;
+	padding: 0 1.25em;
+	font-size: 14px;
+	width: 100%;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	outline: none;
+}
+#newsletter button{
+	font-size: 18px;
+	background-color: darkseagreen;
+	white-space: no-wrap;
+	color: darkgoldenrod;
+	padding: 8px 55px;
+	border: 1px solid;
+	border-color: darkgoldenrod;
+}
+#newsletter .form{
+	width: 40%;
+}
 
+footer{
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+footer .col{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	margin-bottom: 20px;
+}
+footer .logo{
+	margin-bottom: 30px;
+}
+footer h4{
+	font-size: 14px;
+	padding-bottom: 20px;
+	color: #B82306;
+}
+footer p{
+	font-size: 13px;
+	margin: 0 0 8px 0;
+	color: #B82306;
+}
+footer a{
+	font-size: 13px;
+	text-decoration: none;
+	color: chocolate;
+	margin: 10px;
+}
+footer .follow{
+	margin-top: 20px;
+}
+footer .follow .icon i{
+	color: #B8391F;
+	padding-right: 4px;
+	cursor: pointer;
+}
+footer .follow .icon i:hover, footer a:hover{
+	color: #6B1807;
+	padding-right: 4px;
+	cursor: pointer;
+}
+footer .install img{
+	margin: 10px 0 15px 0;
+	
+}
+footer .copyright{
+	width: 100%;
+	text-align: center;
+}
 /**Responsive Media Query**/
-@media(max-width:799px){
+/**/
+@media only screen and (max-width:799px){
     #navbar{
     display: flex;
     flex-direction: column;
@@ -332,15 +441,26 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
     background-color: #E3E6F3;
     box-shadow: 0 40px 60px rgba(0,0,0, 0.1);
     padding: 80px 0 0 10px ;
-    transition: 0.3s;    
+    transition: 0.3s;   	
     }
     #navbar.active{
         right: 0;
     }
     #navbar li{
     margin-bottom: 25px;
-	
     }    
+	/*color:  rgb(2,106,129);	
+    color:  rgb(118,163,148);
+	*/
+	#navbar li a:link, a.active{
+	color:  rgb(93,168,107);
+	
+	}
+	#navbar li a:hover{
+    color:  rgb(79,136,90);
+   
+	}
+	
     #mobile{
     display: flex;
     align-items: center;
@@ -358,4 +478,18 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
     #lg-bag{
         display: none;
     }
+	
+	#hero{
+		height: 70vh;
+		padding: 0 80px;
+		background-position: top 30% right 30%;
+	}
+	
+	#feature{
+		justify-content: center;
+	}
+	
+	#feature .fe-box{
+		margin: 15px 15px;
+	}
 }
