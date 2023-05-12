@@ -62,7 +62,7 @@ public class ProductControl extends HttpServlet {
                             int id = Integer.parseInt(request.getParameter("id"));
                             productDao.doDelete(id);
                         } 
-                    else if (action.equalsIgnoreCase("insert")) {
+                    else if (action.equalsIgnoreCase("submit")) {
                             String name = request.getParameter("name");
                             String description = request.getParameter("description");
                             String brand = request.getParameter("brand");                            
