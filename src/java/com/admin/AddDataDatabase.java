@@ -27,7 +27,6 @@ public class AddDataDatabase extends HttpServlet {
         try{
         PreparedStatement ps;
         Connection cn= mg.getConnection();   
-            int id = (int) (Math.random()*100);
             String brand = request.getParameter("brand");
             String name = request.getParameter("name");
             String desc = request.getParameter("description");
