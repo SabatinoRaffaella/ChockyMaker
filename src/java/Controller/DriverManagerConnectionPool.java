@@ -5,16 +5,20 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
-public class DriverManagerConnectionPool  {
-
+public class DriverManagerConnectionPool  {			
 	private List<Connection> freeDbConnections;
 
 	static {	
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-			logger.log("DB driver not found:"+ e.getMessage());
+                        Logger logger=null;
+                        LogRecord rec=null;
+			rec.setMessage("DB driver not found:"+ e.getMessage());  
+                        logger.log(rec);
 		} 
 	}
 	
