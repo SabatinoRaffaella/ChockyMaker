@@ -40,7 +40,7 @@ public class DriverManagerConnectionPool  {
 		}
 		catch(Exception e){
 			Logger logger=null;
-            LogRecord rec=null;
+            LogRecord rec = new LogRecord();
 			rec.setMessage("Failed to connect to database:"+ e.getMessage());  
             logger.log(rec);
 		}
