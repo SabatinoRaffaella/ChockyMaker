@@ -15,10 +15,10 @@ public class DriverManagerConnectionPool  {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 		} catch (ClassNotFoundException e) {
-                        Logger logger=null;
-                        LogRecord rec=null;
-			rec.setMessage("DB driver not found:"+ e.getMessage());  
-                        logger.log(rec);
+                    Logger logger=null;
+                    LogRecord rec=null;
+		   rec.setMessage("DB driver not found:"+ e.getMessage());  
+                    logger.log(rec);
 		} 
 	}
 	
@@ -26,35 +26,25 @@ public class DriverManagerConnectionPool  {
 		freeDbConnections = new LinkedList<>();
 	}
 	
-	private synchronized Connection createDBConnection() throws SQLException {			
-		try{
-			Connection newConnection;
-			String ip = "localhost";
-			String port = "3306";
-			String db = "chockymaker";
-			String username = "root";
-			String password = "sabata";
-			try{
-			newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
-			newConnection.setAutoCommit(false);
-			return newConnection;
-		
-			}catch(Exception f){}
-			finally{
-			newConnection.close();
-			}		
-		}
-		catch(Exception e){
-			Logger logger= new Logger();
-            LogRecord rec = new LogRecord();
-			rec.setMessage("Failed to connect to database:"+ e.getMessage());  
-            logger.log(rec);
-		}
-		finally{
-			newConnection.close();
-		}
+    private synchronized Connection createDBConnection() throws SQLException {			        
+        Connection newConnection = null;
+	String ip = "localhost";
+        String port = "3306";
+        String db = "chockymaker";
+	String username = "root";
+	String password = "sabata";      
+        try{
+        newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
+        newConnection.setAutoCommit(false);
+	return newConnection;                
 	}
-
+        catch(Exception e){
+            return null;
+        }
+        finally{
+            return newConnection;
+        }
+    }
 
 	public synchronized Connection getConnection() throws SQLException {
 		Connection connection;

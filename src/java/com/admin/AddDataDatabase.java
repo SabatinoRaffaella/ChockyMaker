@@ -27,6 +27,7 @@ public class AddDataDatabase extends HttpServlet {
         try{
         PreparedStatement ps;
         Connection cn= mg.getConnection();   
+	    int id = (int)(Math.random()*100);
             String brand = request.getParameter("brand");
             String name = request.getParameter("name");
             String desc = request.getParameter("description");
@@ -35,31 +36,28 @@ public class AddDataDatabase extends HttpServlet {
             String quantity = request.getParameter("quantity");
             Double p = Double.valueOf(price);
             int q = Integer.parseInt(quantity);
-                           
+	    String imgpath= request.getParameter("img");
             String insertSQL = "INSERT INTO " + "Prodotto"
-		+ " (Name, description, brand, price, quantity) VALUES (?, ?, ?, ?, ?)";
-		try {    
-                    ps = cn.prepareStatement(insertSQL);
-		//	ps.setInt(1,id);			
-                        ps.setString(1,name);
-			ps.setString(2, desc);
-                        ps.setString(3, brand);
-			ps.setDouble(4,p);	
-                        ps.setInt(5,q);						
-			/*
-                        preparedStatement.setInt(4, product.getQuantity());			
-			preparedStatement.setDouble(5, product.getPrice());
-                        */        
-			ps.executeUpdate();
-			cn.commit();   
-		       
-                        ps.close(); 
-                        cn.close();
-                   
+		+ " (Name, description, brand, price, quantity, prod_image) VALUES (?, ?, ?, ?, ?, ?)";	        
+	  //ps.setInt(1,id);			       
+            ps = cn.prepareStatement(insertSQL);
+            try {
+	    ps.setString(1,name);
+	    ps.setString(2, desc);
+            ps.setString(3, brand);
+	    ps.setDouble(4,p);	
+            ps.setInt(5,q);	
+            ps.setString(6,imgpath);				
+            ps.executeUpdate();
+            cn.commit();   
             }catch(Exception e){
-                    response.sendError(1, "Error during connection closing");
-                    response.addHeader("er", "Error during connection closing");
+               response.sendError(1, "Error during connection closing");
+               response.addHeader("er", "Error during connection closing");
             }
+	    finally{
+	      ps.close(); 
+              cn.close();           
+	 }	
         }catch(Exception e){
                response.sendError(2,"Error during query insertion");
                response.addHeader("er", "Error during query insertion");			   
