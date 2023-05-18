@@ -28,14 +28,13 @@ public class DriverManagerConnectionPool  {
 	
 	private synchronized Connection createDBConnection() throws SQLException {			
 		try{
-			Connection newConnection = new Connection();
 			String ip = "localhost";
 			String port = "3306";
 			String db = "chockymaker";
 			String username = "root";
 			String password = "sabata";
 			try{
-			newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
+			Connection newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
 			newConnection.setAutoCommit(false);
 			return newConnection;
 		
