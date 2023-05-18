@@ -26,9 +26,9 @@ public class DriverManagerConnectionPool  {
 		freeDbConnections = new LinkedList<>();
 	}
 	
-	private synchronized Connection createDBConnection() throws SQLException {
-		Connection newConnection = new Connection();			
+	private synchronized Connection createDBConnection() throws SQLException {			
 		try{
+			Connection newConnection = new Connection();
 			String ip = "localhost";
 			String port = "3306";
 			String db = "chockymaker";
