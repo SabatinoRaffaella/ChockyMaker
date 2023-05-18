@@ -27,7 +27,7 @@ public class DriverManagerConnectionPool  {
 	}
 	
 	private synchronized Connection createDBConnection() throws SQLException {
-		Connection newConnection = null;			
+		Connection newConnection = new Connection();			
 		try{
 			String ip = "localhost";
 			String port = "3306";
@@ -39,7 +39,7 @@ public class DriverManagerConnectionPool  {
 			return newConnection;
 		}
 		catch(Exception e){
-			Logger logger=null;
+			Logger logger= new Logger();
             LogRecord rec = new LogRecord();
 			rec.setMessage("Failed to connect to database:"+ e.getMessage());  
             logger.log(rec);
