@@ -38,7 +38,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 			}
 			function validateDesc(){
 				let n= document.forms["products"]["description"].value;
-				var pattern= /^\w+[\w\s]+\w+$/;
+				var pattern= /^[a-zA-Z0-9_]+$/;
 				if(!n.match(pattern)){
 				document.getElementById("desc").innerHTML="Product description must be made of sequences of words or numbers separated by whitespaces";
 				return false;
