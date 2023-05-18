@@ -27,16 +27,26 @@ public class DriverManagerConnectionPool  {
 	}
 	
 	private synchronized Connection createDBConnection() throws SQLException {
-		Connection newConnection = null;
-		String ip = "localhost";
-		String port = "3306";
-		String db = "chockymaker";
-		String username = "root";
-		String password = "sabata";
-
-		newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
-		newConnection.setAutoCommit(false);
-		return newConnection;
+		Connection newConnection = null;			
+		try{
+			String ip = "localhost";
+			String port = "3306";
+			String db = "chockymaker";
+			String username = "root";
+			String password = "sabata";
+			newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
+			newConnection.setAutoCommit(false);
+			return newConnection;
+		}
+		catch(Exception e){
+			Logger logger=null;
+            LogRecord rec=null;
+			rec.setMessage("Failed to connect to database:"+ e.getMessage());  
+            logger.log(rec);
+		}
+		finally{
+			newConnection.close();
+		}
 	}
 
 
