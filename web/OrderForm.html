@@ -8,27 +8,73 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         <title>Order Form</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script>
+			function validate(){
+				if(!validateName() && !validateDesc() && !validateBrand()) return false;
+			}
+			function validateName(){
+			let n= document.forms["products"]["name"].value;
+			var pattern=/^[A-Za-z]+$/;
+				if(!n.match(pattern)){
+				document.getElementById("name").innerHTML="Product name must have alphabet characters only";
+				return false;
+				}
+				else{
+					document.getElementById("name").innerHTML="OK";		
+					return true;					
+				}		
+			}
+			function validateBrand(){
+			let n= document.forms["products"]["brand"].value;
+			var pattern=/^[A-Za-z]+$/;
+				if(!n.match(pattern)){
+				document.getElementById("brand").innerHTML="Product brand must have alphabet characters only";
+				return false;
+				}
+				else{
+					document.getElementById("brand").innerHTML="OK";		
+					return true;					
+				}		
+			}
+			function validateDesc(){
+				let n= document.forms["products"]["description"].value;
+				var pattern= /^\w+[\w\s]+\w+$/;
+				if(!n.match(pattern)){
+				document.getElementById("desc").innerHTML="Product description must be made of sequences of words or numbers separated by whitespaces";
+				return false;
+				}
+				else{
+					document.getElementById("desc").innerHTML="OK";		
+					return true;		
+				}		
+			}
+		</script>
     </head>
     <body>
+	<!-- Prima effetueremò la validazione chiamando uno script che una volta superati tutti i controlli
+         restituirà true e permetterà al form di essere inviato al database !--->
         <div> <form name="products" method="post" action="AddDataDatabase">
             <ol>
               <li>  Enter brand of the product:
-                   <input type="text" name="brand">
+                   <input type="text" name="brand" onchange="validateBrand()" required>
+				   <p id="brand"></p>
               </li>
               <li>  Enter the name of the product:    
-                    <input type="text" name="name">
+                    <input type="text" name="name" onChange="validateName()" required>
+					<p id="name"></p>
               </li>
               
               <li>  Enter a short description of the product to be listed:    
-                    <input type="text" name="description">
+                    <input type="text" name="description" onChange="validateDesc()" required>
+					<p id="desc"></p>
               </li>			  
               <li>  Enter the price of the product to be listed:    
-                    <input type="number" name="price">
+                    <input type="number" name="price" required>
               </li>			  
               <li>  Enter the amount of product to be listed:    
-                    <input type="number" name="quantity">
+                    <input type="number" name="quantity" required>
               </li>
-              <li>Submit <input type="submit" name="submit"></li>
+              <li>Submit <input type="submit" name="submit" onclick="return validate()"></li>
             </ol>
         </form></div>
     </body>
