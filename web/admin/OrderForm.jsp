@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" import Model.Product,Model.Cart>
-<script src="https://kit.fontawesome.com/207052c3a9.js" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" crossorigin="anonymous"></script>
 <title>Admin Dashboard</title>
 </head><!-- 
 // Check user credentials
