@@ -1,22 +1,25 @@
 package Model;
-public class Product {
+import java.io.Serializable;
+public class Product implements Serializable{	
+    private static final long serialVersionUID = 1L;
     private int id;
     private String description;
     private String name;
     private String brand;
     private int quantity;
+    private double amount;
     private double price;
-
+    private String img;
     public Product() {
-    id = -1;
-    name = "";
-    description = "";
-    quantity = 0;
-    brand="";
-    price =0.0;
-
+        id = -1;
+        name = "";
+	description = "";
+	quantity = 0;
+	brand="";
+	price =0.0;
+	amount=0.0;
+	img="";
     }
-
     public double getPrice() {
         return price;
     }
@@ -58,8 +61,8 @@ public class Product {
         return name;
     }
 
-    public void setType(String type) {
-        this.name = type;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getBrand() {
@@ -69,10 +72,21 @@ public class Product {
     public void setBrand(String brand) {
         this.brand = brand;
     }
-
-    public void setName(String name) {
-        this.name = name;
+    public double getAmount() {
+        return amount;
     }
-    
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     
 }
