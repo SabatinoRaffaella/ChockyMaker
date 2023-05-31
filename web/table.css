@@ -1,3 +1,24 @@
 table{
-	width: 100%;
+    width: 100%;
+    border: 1px solid burlywood;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+#cart table td{
+    flex-wrap: wrap;   
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 5px 5px;
+    box-shadow: 0 0 5px rgba(123,123,23,0.3);
+}
+#cart table td img{
+    padding: 0;
+    justify-content:  space-between;
+    object-fit: contain;
+    width: 5%;
+}
+#cart table td:hover{
+    box-shadow: 0 0 5px rgba(123,123,23,0.6);
 }

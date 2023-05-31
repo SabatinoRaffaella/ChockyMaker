@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AddDataDatabase", urlPatterns = {"/AddDataDatabase"})
-public class AddDataDatabase extends HttpServlet {
-    
+public class AddDataDatabase extends HttpServlet {    
     DriverManagerConnectionPool mg= new DriverManagerConnectionPool();
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,26 +29,27 @@ public class AddDataDatabase extends HttpServlet {
 	    int id = (int)(Math.random()*100);
             String brand = request.getParameter("brand");
             String name = request.getParameter("name");
-            String desc = request.getParameter("description");
-            
+            String desc = request.getParameter("description");            
             String price = request.getParameter("price");
             String quantity = request.getParameter("quantity");
             Double p = Double.valueOf(price);
             int q = Integer.parseInt(quantity);
-	    String imgpath= request.getParameter("img");
+            Double pr_amouunt = Double.valueOf(request.getParameter("pr_amouunt"));
+            String imgpath= request.getParameter("img");
             String insertSQL = "INSERT INTO " + "Prodotto"
-		+ " (Name, description, brand, price, quantity, prod_image) VALUES (?, ?, ?, ?, ?, ?)";	        
+		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
 	  //ps.setInt(1,id);			       
             ps = cn.prepareStatement(insertSQL);
             try {
-	    ps.setString(1,name);
-	    ps.setString(2, desc);
-            ps.setString(3, brand);
-	    ps.setDouble(4,p);	
-            ps.setInt(5,q);	
-            ps.setString(6,imgpath);				
-            ps.executeUpdate();
-            cn.commit();   
+				ps.setString(1,name);
+				ps.setString(2, desc);
+				ps.setString(3, brand);
+				ps.setDouble(4,p);	
+				ps.setInt(5,q);	
+				ps.setDouble(6,pr_amouunt);
+				ps.setString(7,imgpath);				
+				ps.executeUpdate();
+				cn.commit();   
             }catch(Exception e){
                response.sendError(1, "Error during connection closing");
                response.addHeader("er", "Error during connection closing");
@@ -62,7 +62,7 @@ public class AddDataDatabase extends HttpServlet {
                response.sendError(2,"Error during query insertion");
                response.addHeader("er", "Error during query insertion");			   
         }
-      //  RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ProductView.jsp");
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/script/ProductView.jsp");
       //  dispatcher.forward(request, response);
     }    
     @Override

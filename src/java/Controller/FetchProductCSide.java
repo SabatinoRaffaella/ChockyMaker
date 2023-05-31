@@ -1,5 +1,4 @@
-package com.admin;
-import Controller.DriverManagerConnectionPool;
+package Controller;
 import Model.Listed;
 import Model.Product;
 import java.io.IOException;
@@ -12,20 +11,20 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-@WebServlet(name = "FetchData", urlPatterns = {"/FetchData"})
-public class FetchData extends HttpServlet {
+@WebServlet(name = "FetchProductCSide", urlPatterns = {"/FetchProductCSide"})
+public class FetchProductCSide extends HttpServlet {
    DriverManagerConnectionPool mg= new DriverManagerConnectionPool();    
 protected void processRequest(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
 
-}
+    }
     @Override   
      /*Restituisce la lista contenuta nella classe Cart dei prodotti 
     Contenuti all'interno del database*/
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+        throws ServletException, IOException{               
         Listed listed = new Listed();
-        Connection cn=null;   
+        Connection cn=null;         
         try {
             cn = mg.getConnection();
             PreparedStatement pt;
@@ -46,20 +45,22 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }           
         } 
         catch (SQLException ex) {
-        Logger.getLogger(FetchData.class.getName()).log(Level.SEVERE, null, ex);
+        Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             try {
                 cn.close();
             } catch (SQLException ex) {
-                Logger.getLogger(FetchData.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         request.getSession().setAttribute("listed", listed);
 	request.setAttribute("listed", listed);
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/OrderForm.jsp");
-        dispatcher.forward(request,response);     
-    }
+	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
+        dispatcher.forward(request,response);    
+       
+    }   
    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

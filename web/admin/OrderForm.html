@@ -12,7 +12,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 		<link rel="stylesheet" href="../Web Pages/style.css">
 		<script>
 			function validate(){
-				if(!validateName() && !validateDesc() && !validateBrand()) return false;
+				if(!validateName() || !validateDesc() || !validateBrand()) return false;
 			}
 			function validateName(){
 			let n= document.forms["products"]["name"].value;
@@ -48,9 +48,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 			}
 			function validateDesc(){
 				let n= document.forms["products"]["description"].value;
-				var pattern= /^[A-Za-z]+$/;
+				var pattern= /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/;
 				if(!n.match(pattern)){
-				document.getElementById("error").innerHTML="Product description must be made of characters only";
+				document.getElementById("error").innerHTML="Product description must be a sequence of characters <br> and numbers separeted by whitespace without special characters";
 				error.classList.remove("valid");
 				error.classList.add("invalid")
 				return false;
@@ -91,10 +91,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
                    <input type="text" name="brand" onchange="validateBrand()" required>
               </li>
               <li><p>  Enter the name of the product: </p>  
-                    <input type="text" name="name" onChange="validateName()" required>
+                    <input type="text" name="name" onchange="validateName()" required>
               </li>          
               <li><p> Enter a short description of the product to be listed: </p>
-                    <input type="text" name="description" onChange="validateDesc()" required>
+                    <input type="text" name="description" onchange="validateDesc()" required>
               </li>			  
               <li><p>  Enter the price of the product to be listed: </p>
                     <input type="number" name="price" required>
@@ -108,11 +108,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
         	<li><p>  Enter a photo of the product to be listed: </p>
                 <input type="file" name="img" accept="image/*" required>
               </li>
-              <li><input value="Submit" type="submit" name="submit" onclick="return validate()"></li>
-	      <div class="errormsg">
-	      <p id="error"></p>
-	     </div>
+              <li><input value="Submit" type="submit" name="submit" onclick="return validate()"></li>	      
             </ol>
+            <div class="errormsg">
+	      <p id="error"></p>
+	    </div>   
         </form></div>
         <div class="fetch">
         <form action="../FetchData" method="get">
