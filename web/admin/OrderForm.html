@@ -48,7 +48,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
 			}
 			function validateDesc(){
 				let n= document.forms["products"]["description"].value;
-				var pattern= /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]*$/;
+				var pattern= /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _]{1,10}*$/;
 				if(!n.match(pattern)){
 				document.getElementById("error").innerHTML="Product description must be a sequence of characters <br> and numbers separeted by whitespace without special characters";
 				error.classList.remove("valid");
