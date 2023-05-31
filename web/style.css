@@ -627,7 +627,7 @@ footer .copyright{
 		width: 100%;
 	}
 	#banner{
-		height:40hv;
+		height:40vh;
 		align-items: center;
 		justify-content:center;
 		padding: 0 ;
@@ -637,7 +637,7 @@ footer .copyright{
 		font-size: 20px;
 	}
 	#sm-banner .banner-box{
-		height:40hv;
+		height:40vh;
 	}
 	#sm-banner .banner-box2{
 		margin-top:20px;
