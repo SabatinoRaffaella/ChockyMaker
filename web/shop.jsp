@@ -41,13 +41,13 @@
     %>        
 <h2>Details</h2>
 <section id="cart" class="section-p1">	
-    <table> 
+    <table><caption>List of products available</caption> <th>Product</th>
 	<%
 	  if (products != null) {
           for(Product p: products.getProducts()){       
 	%>
         <tr><td><%=p.getBrand()%> <%=p.getName()%> <%=p.getAmount()%>gr.</td></tr>
-        <tr><td><img src="img/prodotti/<%=p.getImg()%>"/></td>       
+        <tr><td><img alt="alt" src="img/prodotti/<%=p.getImg()%>"/></td>       
 	</tr>
         <tr> 
         <td><%=p.getDescription()%>
