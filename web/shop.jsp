@@ -12,8 +12,8 @@
 	<link rel="stylesheet" href="style.css">
         <link rel="stylesheet" href="table.css">	
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" import Model.Product,Model.Cart>
-	<script src="https://kit.fontawesome.com/207052c3a9.js" crossorigin="anonymous"></script>
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+	<script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" crossorigin="anonymous"></script>
+        <script type="text/javascript" integrity="sha384-oqVuAfXRKap7fdgcCY5uykM6+R9GqQ8K/uxy9rx7HNQlGYl1kPzQho1wx4JwY8wC" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function(){
                 $('#sendPr_name').click(function(){
