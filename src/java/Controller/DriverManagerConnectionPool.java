@@ -1,16 +1,19 @@
 package Controller;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 public class DriverManagerConnectionPool  {			
 	private List<Connection> freeDbConnections;
-
 	static {	
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
@@ -20,8 +23,7 @@ public class DriverManagerConnectionPool  {
 		   rec.setMessage("DB driver not found:"+ e.getMessage());  
                     logger.log(rec);
 		} 
-	}
-	
+	}	
 	public DriverManagerConnectionPool() {
 		freeDbConnections = new LinkedList<>();
 	}
@@ -30,16 +32,20 @@ public class DriverManagerConnectionPool  {
         Connection newConnection = null;
 	String ip = "localhost";
         String port = "3306";
-        String db = "chockymaker";
-	String username = "root";
-	String password = "sabata";      
+        String db = "chockymaker";        
         try{
-        newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
-        newConnection.setAutoCommit(false);
-	return newConnection;                
+            InputStream propsInput = getClass().getResourceAsStream("config.properties");
+            Properties pr = new Properties();
+            pr.load(propsInput);              
+            String username = pr.getProperty("DB_USER");
+            String password = pr.getProperty("DB_PASSWORD");      
+            newConnection = DriverManager.getConnection("jdbc:mysql://"+ ip+":"+ port+"/"+db+"?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC", username, password);
+            newConnection.setAutoCommit(false);
+            return newConnection;                
 	}
-        catch(Exception e){
-            return null;
+        catch(IOException | SQLException e){
+            System.out.println("Error occurred here");
+            System.out.println(e.getMessage());
         }
         finally{
             return newConnection;
