@@ -38,9 +38,9 @@ public class AllowAcess extends HttpServlet {
             String hashPasswordToBeMatch = 
             "1c573dfeb388b562b55948af954a7b344dde1cc2099e978a992790429e7c01a4205506a93d9aef3bab32d6f06d75b7777a7ad8859e672fedb6a096ae369254d2"; 
             // this is the hash of "mypass"
-            if(username.equals("admin") && hashPassword.equals(hashPasswordToBeMatch)){ //admin
+            if(username.matches("admin") && hashPassword.matches(hashPasswordToBeMatch)){ //admin
 	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
-		response.sendRedirect("admin/OrderForm.jsp");			
+		response.sendRedirect("admin/AddProduct.jsp");			
 		} else if (username.equals("user") && hashPassword.equals(hashPasswordToBeMatch)){ //user
 			request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
 			response.sendRedirect("common/shop.jsp");

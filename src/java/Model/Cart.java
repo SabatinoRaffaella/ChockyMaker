@@ -5,18 +5,18 @@ import java.util.List;
 
 public class Cart extends Product{
     private List<Product> products;	
-    private String email_cliente;
+    private int id_cliente;
 
-    public String getEmail_cliente() {
-        return email_cliente;
+    public int getId_cliente() {
+        return id_cliente;
     }
 
-    public void setEmail_cliente(String email_cliente) {
-        this.email_cliente = email_cliente;
+    public void setId_cliente(int id_cliente) {
+        this.id_cliente = id_cliente;
     }
-    public Cart(String email_cliente) {
+    public Cart(int id_cliente) {
 	products = new ArrayList<>();
-        this.email_cliente = email_cliente;
+        this.id_cliente = id_cliente;
     }
     public Product fetchById(int id){
          return products.get(id);

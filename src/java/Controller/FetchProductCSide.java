@@ -45,10 +45,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }           
         } 
         catch (SQLException ex) {
-        Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);
+        //Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);
         }
         finally{
             try {
+                mg.releaseConnection(cn);
                 cn.close();
             } catch (SQLException ex) {
                 Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);

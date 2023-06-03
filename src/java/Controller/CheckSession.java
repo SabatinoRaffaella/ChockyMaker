@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -44,7 +46,7 @@ public class CheckSession extends HttpServlet {
                 cok.setValue(user_name);
                 request.getSession().setAttribute("user", user_name);
             }*/
-            Cart usercart= new Cart("something@gmail.com");
+            Cart usercart= new Cart(1);
             Connection cn=null;   
             /*if(usercart==null){
                 usercart = new Cart("something@gmail.com");
@@ -54,53 +56,60 @@ public class CheckSession extends HttpServlet {
                 int id = Integer.parseInt(request.getParameter("id"));               
                 if(action.matches("addC")){
                     try{                           
-                    String email =  usercart.getEmail_cliente();
+                    int id_cliente =  usercart.getId_cliente();
                     double price = Double.parseDouble(request.getParameter("price"));
                     cn = mg.getConnection();
-                    PreparedStatement pt;
-                    PreparedStatement ps;
+                    PreparedStatement pt,ps;
                     ResultSet rs;
-                    ps = cn.prepareStatement("select * from carrello where email_cliente = ?");
-                    ps.setString(1,"email");
+                    ps= cn.prepareStatement ("select * from Carrello");
                     rs = ps.executeQuery();
                     Boolean isProdPresent = false;
-                    double sub_totale=0;
-                    int quantità=0;
-                    while(rs.next()){  
-                        if(rs.getInt("id_prodotto")==id){
-			isProdPresent=true;
-			sub_totale=rs.getDouble("sub_totale");
-			quantità=rs.getInt("quantità");
-			}
+                    Boolean isClientPresent = false;
+                    while(rs.next()){
+                        if(rs.getInt("id_cliente")==id_cliente){
+                            if(rs.getInt("id_prodotto")==id){
+                                isProdPresent=true;      
+                               }
+                            isClientPresent=true;
+                        }    
+                        System.out.println(isProdPresent);			
                     }           
-                    if(isProdPresent==true){
-                        sub_totale = sub_totale + price;
-                        quantità = quantità + 1;
+                    if(isProdPresent==true && isClientPresent==true){              
                         pt = cn.prepareStatement
-                        ("update carrello set quantità=?,sub_totale=? where id_prodotto=?");                       
-                        pt.setInt(1, quantità);
-                        pt.setDouble(2, sub_totale);
-                        pt.setInt(3, id);
+                        ("update Carrello set sub_totale= sub_totale+?,quantità=quantità+1 where id_prodotto=? and id_cliente=?");                       
+                        pt.setDouble(1, price);
+                        pt.setInt(2, id);
+                        pt.setInt(3, id_cliente);                
                         pt.executeUpdate();
+                        cn.commit();
+                        pt.close();
                     }
                     else{
                         pt = cn.prepareStatement
-                        ("insert into Carrello (id_prodotto,email_cliente,quantità,sub_totale) values (?,?,?,?)");
-                        pt.setInt(1, id);
-                        pt.setString(2, email);    
+                        ("insert into Carrello (id_cliente,id_prodotto,quantità,sub_totale) values (?,?,?,?)");
+                        pt.setInt(1, id_cliente);        
+                        pt.setInt(2, id);
                         pt.setInt(3, 1);
                         pt.setDouble(4, price);
                         pt.executeUpdate(); 
-                        }
-                    pt.close();
-                    cn.close();
-                    mg.releaseConnection(cn);
+                        cn.commit();                        
+                        pt.close();
+                    }		                   
                     }    
                     catch(SQLException s){
-                        response.getWriter().print(s.getMessage());
-                        mg.releaseConnection(cn);
-                        
+                        if(cn!=null){
+                            try{
+                                response.getWriter().print(s.getMessage());
+                                cn.rollback();
+                            }
+                            catch(SQLException excep){
+                                Logger.getLogger(CheckSession.class.getName()).log(Level.SEVERE, null, s);               
+                            }
+                        }
                     }
+		finally {
+                    if (cn != null) try { cn.close(); } catch (SQLException logOrIgnore) {};
+		}                   
                     //Listed list = (Listed)request.getSession().getAttribute("listed");
                     //usercart.addProduct(list.fetchById(id));
                     //response.addCookie(cok);
@@ -110,7 +119,7 @@ public class CheckSession extends HttpServlet {
             catch(Exception e){
                 request.getSession().setAttribute("errormsg", e.getMessage());
                 response.sendRedirect("error/error.jsp");               
-            }	
+            }				
         }       
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)

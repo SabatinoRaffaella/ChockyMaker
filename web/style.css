@@ -389,27 +389,26 @@ button.minbanner{
 	justify-content: space-between;
 	flex-wrap: wrap;
 	align-items: center;
-	background-image: url("img/banner/newsletter2.png");
-	background-repeat: no-repeat;
+	background-image: url("img/banner/newsletter.png");
+        background-repeat: no-repeat;
 	background-position: 10% 20%;
 	background-color: seagreen;
 }
 
 #newsletter h4{
-	font-size: 22px;
+	font-size: 25px;
 	font-weight: 700;
 	
 	
 }
 #newsletter p{
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: 600;
-	color: #556B2F;
+	color:#00B86F;
 	
 }
 #newsletter p span{
-	color: darkgoldenrod;
-	
+	color: whitesmoke;	
 }
 #newsletter input{
 	height: 3.125rem;
@@ -525,13 +524,15 @@ footer .copyright{
 	/*color:  rgb(2,106,129);	
     color:  rgb(118,163,148);
 	*/
+        #navbar li a:visited{
+            color:  rgb(79,136,90);	
+        }
 	#navbar li a:link, a.active{
 	color:  rgb(93,168,107);
 	
 	}
 	#navbar li a:hover{
-    color:  rgb(79,136,90);
-   
+       color:  rgb(79,136,90);
 	}
 	
     #mobile{

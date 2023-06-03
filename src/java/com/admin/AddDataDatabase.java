@@ -25,8 +25,8 @@ public class AddDataDatabase extends HttpServlet {
             throws ServletException, IOException {
         try{
         PreparedStatement ps;
-        Connection cn= mg.getConnection();   
-	        String brand = request.getParameter("brand");
+        Connection cn= mg.getConnection();
+            String brand = request.getParameter("brand");
             String name = request.getParameter("name");
             String desc = request.getParameter("description");            
             String price = request.getParameter("price");
@@ -40,15 +40,15 @@ public class AddDataDatabase extends HttpServlet {
 	  //ps.setInt(1,id);			       
             ps = cn.prepareStatement(insertSQL);
             try {
-				ps.setString(1,name);
-				ps.setString(2, desc);
-				ps.setString(3, brand);
-				ps.setDouble(4,p);	
-				ps.setInt(5,q);	
-				ps.setDouble(6,pr_amouunt);
-				ps.setString(7,imgpath);				
-				ps.executeUpdate();
-				cn.commit();   
+                ps.setString(1,name);
+		ps.setString(2, desc);
+		ps.setString(3, brand);
+		ps.setDouble(4,p);	
+		ps.setInt(5,q);	
+		ps.setDouble(6,pr_amouunt);
+		ps.setString(7,imgpath);				
+		ps.executeUpdate();
+                cn.commit();   
             }catch(Exception e){
                response.sendError(1, "Error during connection closing");
                response.addHeader("er", "Error during connection closing");
