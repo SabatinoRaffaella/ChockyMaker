@@ -37,7 +37,7 @@
         <h2>#WeLikeChocolate</h2>
         <p>Save up money to buy more chocky with some coupons and 70% off our products</p>
        </section>
-    <%  Listed products= (Listed)request.getAttribute("listed");
+    <%  Listed products= (Listed)request.getSession().getAttribute("listed");
     %>        
 <h2>Details</h2>
 <section id="cart" class="section-p1">	

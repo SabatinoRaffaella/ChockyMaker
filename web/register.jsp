@@ -25,7 +25,6 @@
                     error.classList.add("invalid");				
                 return false;
                 }
-                if(n.match(""))return true;
                 else{
                     document.getElementById("error").innerHTML="OK";
                     error.classList.remove("invalid")									
@@ -100,22 +99,23 @@
             
             
         </script>
+        
     </head>
     <body>
 	 <jsp:include page="jsptofetch/header.jsp"  flush="true"/>     		
 	<!-- Prima effetueremò la validazione chiamando uno script che una volta superati tutti i controlli
          restituirà true e permetterà al form di essere inviato al database !-->
-        <div class="section-p1"><form name="client" method="post" action="Register">
+        <div class="section-p1"><form name="client" method="post" action="RegisterFilter">
             <ol>
               <li><p>  Enter your e-mail: </p>
-                   <input type="text" name="email" onchange="validateEmail()">
+                  <input type="text" name="email" onchange="validateEmail()" required>
               </li>
               <li><p>  Enter your name: </p>  
                     <input type="text" name="name" onchange="validateName()" required>
-              </li>          
+              </li>                                 
               <li><p> Enter you surname: </p>
                     <input type="text" name="surname" onchange="validateSurname()" required>
-              </li>			  
+              </li>
               <li><p>  Enter your address: </p>
                     <input type="text" name="address" onchange="validateAddress()"required>
               </li>			  

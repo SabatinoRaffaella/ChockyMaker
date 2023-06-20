@@ -17,11 +17,15 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
     Contenuti all'interno del database*/
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException{  
-	Listed listed = (Listed)request.getSession().getAttribute("listed");
+	Listed listed = (Listed)request.getSession().getAttribute("listed");       
         if(listed==null || listed.getProducts().isEmpty()){
           RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/FetchProductCSide"); 
           dispatcher.forward(request,response);
         } 
+        else {
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp"); 
+              dispatcher.forward(request,response);
+        }
     }
    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

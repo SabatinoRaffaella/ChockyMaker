@@ -1,8 +1,10 @@
 package Controller;
-import Filter.Filter;
+import Model.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,39 +15,34 @@ public class Register extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {}
     DriverManagerConnectionPool mg= new DriverManagerConnectionPool();
-    @Override
+   @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-   @Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try{
-        PreparedStatement ps;
+        throws ServletException, IOException {
+       
+   try{
+       
+       User u= (User)request.getSession().getAttribute("user");
+       response.getWriter().print(u.getAddress()+"  "+u.getPassword());
+       PreparedStatement ps;
         Connection cn= mg.getConnection();
-        Filter filt = new Filter();
-            String email = filt.Filter(request.getParameter("email"));
-            String name = filt.Filter(request.getParameter("name"));
-            String desc = filt.Filter(request.getParameter("description"));            
-            String price = request.getParameter("price");
-            String quantity = request.getParameter("quantity");
-            Double p = Double.valueOf(price);
-            int q = Integer.parseInt(quantity);
-            Double pr_amouunt = Double.valueOf(request.getParameter("pr_amouunt"));
-            String imgpath= request.getParameter("img");
-            String insertSQL = "INSERT INTO " + "Utente"
-		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
+        String insertSQL = "INSERT INTO " + "Utente"
+		+ " (email, nome_utente, indirizzo, pass, nome,cognome, telefono,ruolo) VALUES (?, ?, ?, ?, ?, ?, ?,?)";	        
 	  //ps.setInt(1,id);			       
             ps = cn.prepareStatement(insertSQL);
             try {
-                ps.setString(1,name);
-		ps.setString(2, desc);
-		ps.setString(3, brand);
-		ps.setDouble(4,p);	
-		ps.setInt(5,q);	
-		ps.setDouble(6,pr_amouunt);
-		ps.setString(7,imgpath);				
+                ps.setString(1,u.getEmail());
+		ps.setString(2, u.getName());
+		ps.setString(3, u.getAddress());
+		ps.setString(4,u.getPassword());	
+		ps.setString(5,u.getName());	
+		ps.setString(6,u.getSurname());
+		ps.setString(7,u.getPhoneNumber());               
+		ps.setString(8,"cliente");
 		ps.executeUpdate();
                 cn.commit();   
             }catch(Exception e){
@@ -60,10 +57,10 @@ public class Register extends HttpServlet {
                response.sendError(2,"Error during query insertion");
                response.addHeader("er", "Error during query insertion");			   
         }
-        
-    }
-
-    @Override
+        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
+        dispatcher.forward(request,response); 
+}
+   @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>

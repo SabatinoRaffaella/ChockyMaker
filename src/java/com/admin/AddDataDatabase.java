@@ -31,13 +31,10 @@ public class AddDataDatabase extends HttpServlet {
             String brand = filt.Filter(request.getParameter("brand"));
             String name = filt.Filter(request.getParameter("name"));
             String desc = filt.Filter(request.getParameter("description"));            
-            String price = request.getParameter("price");
-            String quantity = request.getParameter("quantity");
-            Double p = Double.valueOf(price);
-            int q = Integer.parseInt(quantity);
+            Double p = Double.valueOf( request.getParameter("price"));
+            int q = Integer.parseInt (request.getParameter("quantity"));
             Double pr_amouunt = Double.valueOf(request.getParameter("pr_amouunt"));
-            String imgpath= request.getParameter("img");
-            
+            String imgpath= request.getParameter("img");            
             String insertSQL = "INSERT INTO " + "Prodotto"
 		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
 	  //ps.setInt(1,id);			       

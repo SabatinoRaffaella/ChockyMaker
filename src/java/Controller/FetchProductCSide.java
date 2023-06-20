@@ -57,7 +57,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         }
         
         request.getSession().setAttribute("listed", listed);
-	request.setAttribute("listed", listed);
+	//request.setAttribute("listed", listed);
 	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
         dispatcher.forward(request,response);    
        
