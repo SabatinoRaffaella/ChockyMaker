@@ -3,6 +3,7 @@ import java.io.Serializable;
 public class Product implements Serializable{	
     private static final long serialVersionUID = 1L;
     private int id;
+    private int addedToCart;
     private String description;
     private String name;
     private String brand;
@@ -11,6 +12,7 @@ public class Product implements Serializable{
     private double price;
     private String img;
     public Product() {
+        addedToCart= 0;
         id = -1;
         name = "";
 	description = "";
@@ -46,7 +48,7 @@ public class Product implements Serializable{
     @Override
     public String toString(){
         return "\n Here are all info: Id is: "+getId()+"\n Brand is: "+getBrand()+"\n Type of the product: "+getName()+"\n"
-                +"Description:"+"\n"+ getDescription()+"\n";
+                +"Description:"+"\n"+ getDescription()+"\n"+ "Quantity is: "+getAddedToCart()+"\n";
     }
 
     public String getDescription() {
@@ -59,6 +61,14 @@ public class Product implements Serializable{
 
     public String getName() {
         return name;
+    }
+
+    public int getAddedToCart() {
+        return addedToCart;
+    }
+
+    public void setAddedToCart(int addedToCart) {
+        this.addedToCart += addedToCart;
     }
 
     public void setName(String name) {

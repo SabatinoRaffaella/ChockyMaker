@@ -56,10 +56,13 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             }
         }
         request.getSession().setAttribute("listed", listed);
-	request.setAttribute("listed", listed);
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/OrderForm.jsp");
-        dispatcher.forward(request,response);     
+        response.sendRedirect("admin/ViewProduct.jsp");
     }
+	//RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/ViewProduct.jsp");
+        //dispatcher.forward(request,response);     
+        //non effettua redirect alla pagina desiderata
+       // nel senso che non ti sposta verso quella pagina ma esegue il codice contenuto all'interno
+        //all'interno della jsp 
    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

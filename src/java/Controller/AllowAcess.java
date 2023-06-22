@@ -1,7 +1,12 @@
 package Controller;
 
+import Filter.Filter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
@@ -12,12 +17,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AllowAcess", urlPatterns = {"/AllowAcess"})
 public class AllowAcess extends HttpServlet {
+    DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
-			
-        String password= request.getParameter("password");
-        String username= request.getParameter("username");
+	Filter filt = new Filter();		
+        String password= filt.Filter(request.getParameter("password"));
+        String username= filt.Filter(request.getParameter("username"));
         List<String> errors = new ArrayList<>();
             RequestDispatcher dispatcherToLoginPage = request.getRequestDispatcher("login.jsp");			
             if(username == null || username.trim().isEmpty()) {
@@ -32,18 +38,31 @@ public class AllowAcess extends HttpServlet {
             	return; // note the return statement here!!!
             }
             
-            System.out.println(toHash("sa"));
-            
             String hashPassword = toHash(password);
-            String hashPasswordToBeMatch = 
-            "1c573dfeb388b562b55948af954a7b344dde1cc2099e978a992790429e7c01a4205506a93d9aef3bab32d6f06d75b7777a7ad8859e672fedb6a096ae369254d2"; 
-            // this is the hash of "mypass"
-            if(username.matches("admin") && hashPassword.matches(hashPasswordToBeMatch)){ //admin
+            String ruolo="";
+            String pass="";
+            try{
+                PreparedStatement ps;
+                ResultSet rs;
+                Connection cn = mg.getConnection();
+                ps = cn.prepareStatement("select ruolo,pass from utente where nome_utente=? and pass=?");
+                ps.setString(1, username);
+                ps.setString(2, hashPassword);
+                rs= ps.executeQuery();
+               
+                while(rs.next()){
+                    ruolo = rs.getString("ruolo");
+                    pass =  rs.getString("pass");
+                }
+            }
+            catch(SQLException se){}
+            if(ruolo.matches("admin") && hashPassword.matches(pass)){ //admin
 	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
-		response.sendRedirect("admin/AddProduct.jsp");			
-		} else if (username.equals("user") && hashPassword.equals(hashPasswordToBeMatch)){ //user
+                response.sendRedirect("FetchData");			
+		} else if (ruolo.matches("cliente") && hashPassword.matches(pass)){ //user
 			request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
-			response.sendRedirect("common/shop.jsp");
+			request.getSession().setAttribute("userID", username);
+                        response.sendRedirect("Shop");
 		} else {
 			errors.add("Username o password non validi!");
 			request.setAttribute("errors", errors);

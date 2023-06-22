@@ -1,6 +1,8 @@
 package Controller;
 import Model.Cart;
 import Model.Listed;
+import Model.Product;
+import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,8 @@ public class CheckSession extends HttpServlet {
             L'accesso
             */
         else{
+           User u = (User)request.getSession().getAttribute("user");
+           if(u!=null) request.getSession().setAttribute("userID", u.getUsername());
            usercart = (Cart)request.getSession().getAttribute("usercart");
           // request.getSession().setAttribute("userID", );
         }
@@ -33,10 +37,12 @@ public class CheckSession extends HttpServlet {
             int id = Integer.parseInt(request.getParameter("id"))-1;                              
             if(action.matches("addC")){
                 Listed list = (Listed)request.getSession().getAttribute("listed");
-                usercart.addProduct(list.fetchById(id));
-                request.getSession().setAttribute("usercart", usercart);
-                    //response.addCookie(cok);
-                    response.getWriter().print(usercart.getProducts().toString());
+                Product selected = (list.fetchById(id));
+                if(usercart.checkIfPresent(selected)) usercart.fetchById(id).setAddedToCart(1);
+                else usercart.addProduct(selected);
+                request.getSession().setAttribute("usercart", usercart);                    
+                    response.getWriter().print(request.getSession().getAttribute("userID"));
+                    response.getWriter().print(usercart.getProducts().toString());                   
             }               
         }
         catch(Exception e){

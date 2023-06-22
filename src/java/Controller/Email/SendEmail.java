@@ -2,7 +2,6 @@ package Controller.Email;
 import Model.User;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -26,17 +25,17 @@ public class SendEmail extends HttpServlet {
             EmailList l = new EmailList();
             l.addEmail(em);
             request.getSession().setAttribute("emails", l);
-            //request.getSession().setMaxInactiveInterval(0);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Result.jsp");
-            dispatcher.forward(request,response);   
+            //response.sendRedirect("Result.jsp");
+            //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Result.jsp");
+            //dispatcher.forward(request,response);   
             resultMessage = "The e-mail was sent successfully";
         } catch (Exception ex) {
             ex.printStackTrace();
             resultMessage = "There were an error: " + ex.getMessage();
         } finally {
             request.setAttribute("Message", resultMessage);
-            getServletContext().getRequestDispatcher("/Result.jsp").forward(
-                    request, response);
+            response.sendRedirect("Result.jsp");
+           
         }
     }
 

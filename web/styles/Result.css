@@ -1,0 +1,16 @@
+
+/* 
+    Created on : 4-giu-2023, 16.48.47
+    Author     : raffy
+*/
+
+#comp:after{
+    display: none;
+}
+
+#newPass{
+    display: none;
+}
+#newPass.active{
+    display:  contents;
+}

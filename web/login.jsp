@@ -7,6 +7,8 @@
 <title>Login form</title>
 </head>
 <body>
+   <link rel="stylesheet" href="style.css">
+    <jsp:include page="jsptofetch/header.jsp"  flush="true"/>     
 <% 
 List<String> errors = (List<String>) request.getAttribute("errors");
 if (errors != null){
@@ -29,6 +31,7 @@ if (errors != null){
      <input type="reset" value="Reset"/>
 </fieldset>
 </form> 
+ <jsp:include page="jsptofetch/footer.jsp" flush="/true"/>	
 </body>
 </html>
 

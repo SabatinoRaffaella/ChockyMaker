@@ -1,6 +1,11 @@
 package Filter;
+import Controller.DriverManagerConnectionPool;
 import Model.User;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +18,7 @@ public class RegisterFilter extends HttpServlet {
             throws ServletException, IOException {
         
     }
+    DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -27,15 +33,35 @@ public class RegisterFilter extends HttpServlet {
             String surname = filt.Filter(request.getParameter("surname"));            
             String address = filt.Filter(request.getParameter("address")); 
             String phoneNumber =  filt.Filter(request.getParameter("phoneNumber")); 
-            User newuser= new User(email,name,surname,address,phoneNumber);
-            String onepass = SecurePassword.generateRandomPassword();
-            newuser.setPassword(onepass);
-            request.getSession().setAttribute("user", newuser);
-            
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/SendEmail");
-        dispatcher.forward(request,response);              
-    }
-    
+            try{
+                String errormsg="";
+                Connection cn= mg.getConnection();
+                PreparedStatement ps;
+                ResultSet rs;
+                ps = cn.prepareStatement("select count(email) from Utente where email=?");
+                ps.setString(1, email);
+                int count=0;
+                rs= ps.executeQuery();
+                while(rs.next()){
+                    count = rs.getInt("count(email)");
+                }
+                if(count==1){
+                    errormsg = "user already registered with inserted email";
+                    request.getSession().setAttribute("error", errormsg);
+                    response.sendRedirect("register.jsp");
+                }
+                else{
+                    User newuser= new User(email,name,surname,address,phoneNumber);
+                    String onepass = SecurePassword.generateRandomPassword();
+                    newuser.setPassword(onepass);
+                    request.getSession().setAttribute("user", newuser);
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/SendEmail");
+                    dispatcher.forward(request,response);   
+                }
+            }
+            catch(SQLException sql){           
+            }                 
+    } 
     @Override
     public String getServletInfo() {
         return "Short description";

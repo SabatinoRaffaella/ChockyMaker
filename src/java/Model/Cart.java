@@ -23,6 +23,7 @@ public class Cart extends Product{
     }
     public void addProduct(Product product) {
 	products.add(product);
+        product.setAddedToCart(1);
     }	
     public void deleteProduct(Product product) {
 	for(Product prod : products) {
@@ -31,6 +32,9 @@ public class Cart extends Product{
                 break;
             }
         }
+    }
+    public boolean checkIfPresent(Product p){
+        return (products.contains(p));      
     }
     public List<Product> getProducts() {
 	return  products;

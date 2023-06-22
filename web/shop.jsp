@@ -1,3 +1,4 @@
+<%@page import="Model.Cart"%>
 <%@page import="Model.Product"%>
 <%@page import="Model.Listed"%>
 <%@page import="Model.Shop"%>
@@ -10,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="table.css">	
+        <link rel="stylesheet" href="table.css">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" import Model.Product,Model.Cart>
 	<script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha512-BgwIN3PpXLkbg6HyWOm0LO0m1sBZr6gEHLStmyYQ+3WtPcbEJkhC5lH1iISIYI0pWi+L6snpMjPQ99mrWPagew==" crossorigin="anonymous"></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" ></script>
@@ -32,7 +33,7 @@
         
 </head>
     <body>
-	 <jsp:include page="jsptofetch/header.jsp"  flush="true"/>     
+        <jsp:include page="jsptofetch/header.jsp"  flush="true"/>
 	<section id="page-header" >
         <h2>#WeLikeChocolate</h2>
         <p>Save up money to buy more chocky with some coupons and 70% off our products</p>

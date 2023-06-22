@@ -22,12 +22,12 @@
           for(Email em: emails.getEmails()){       
 	%>
         <tr><td><%=em.getRecipient()%></td></tr>
-        <tr><td><%=em.getContent()%>"/></td>       
+        <tr><td><%=em.getSubject()%></td>       
 	</tr>
         <tr> 
-        <td><%=em.getSubject()%>
+        <td>
+            <%=em.getContent()%>
         </td>
-         
 	</tr>
 	<%            
             }

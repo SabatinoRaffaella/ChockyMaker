@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,7 +35,7 @@ public class Register extends HttpServlet {
             ps = cn.prepareStatement(insertSQL);
             try {
                 ps.setString(1,u.getEmail());
-		ps.setString(2, u.getName());
+		ps.setString(2, u.getUsername());
 		ps.setString(3, u.getAddress());
 		ps.setString(4,u.getPassword());	
 		ps.setString(5,u.getName());	
