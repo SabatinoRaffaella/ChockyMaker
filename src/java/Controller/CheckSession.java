@@ -4,6 +4,7 @@ import Model.Listed;
 import Model.Product;
 import Model.User;
 import java.io.IOException;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,24 +30,34 @@ public class CheckSession extends HttpServlet {
         else{
            User u = (User)request.getSession().getAttribute("user");
            if(u!=null) request.getSession().setAttribute("userID", u.getUsername());
-           usercart = (Cart)request.getSession().getAttribute("usercart");
-          // request.getSession().setAttribute("userID", );
+           usercart = (Cart)request.getSession().getAttribute("usercart");        
         }
         try{
            String action = request.getParameter("action");	   
             int id = Integer.parseInt(request.getParameter("id"))-1;                              
-            if(action.matches("addC")){
-                Listed list = (Listed)request.getSession().getAttribute("listed");
-                Product selected = (list.fetchById(id));
+            Listed list = (Listed)request.getSession().getAttribute("listed");
+            Product selected = (list.fetchById(id));
+            if(action.matches("addC")){               
                 if(usercart.checkIfPresent(selected)) usercart.fetchById(id).setAddedToCart(1);
                 else usercart.addProduct(selected);
-                request.getSession().setAttribute("usercart", usercart);                    
-                    response.getWriter().print(request.getSession().getAttribute("userID"));
-                    response.getWriter().print(usercart.getProducts().toString());                   
-            }               
+                request.getSession().setAttribute("usercart", usercart);
+                request.getSession().setAttribute("msg","the element was added succesfully to the cart");                
+                    //response.getWriter().print(request.getSession().getAttribute("userID"));
+                    //response.getWriter().print(usercart.getProducts().toString());       
+            }
+            if(action.matches("delete")){
+                if(!usercart.checkIfPresent(selected)) request.getSession().setAttribute("msg","the selected item isn't int the cart");
+                else{ 
+                    usercart.deleteProduct(selected);
+                    request.getSession().setAttribute("msg","the selected item was removed from the cart");
+                }
+            }     
+            response.sendRedirect("Shop");
+            //RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Shop"); 
+            //dispatcher.forward(request,response);
         }
         catch(Exception e){
-            request.getSession().setAttribute("errormsg", e.getMessage());
+            request.setAttribute("errormsg", e.getMessage());
             response.sendRedirect("error/error.jsp");               
             }				
         }       

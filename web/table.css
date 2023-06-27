@@ -1,24 +1,34 @@
-table{
+
+#msg{
     width: 100%;
-    border: 1px solid burlywood;
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
+    height: 5%;
+    margin: 5%;
+    padding: 15px;
+    justify-content: center;
+    align-items: center;
+    
 }
-#cart table td{
+
+#showpr table td:hover{
+    box-shadow: 0 0 5px rgba(123,123,23,0.6);
+}
+#showpr table td{
+    margin: 20px;
     flex-wrap: wrap;   
     justify-content: space-between;
     align-items: flex-start;
-    padding: 5px 5px;
+    padding: 15px 15px;
     box-shadow: 0 0 5px rgba(123,123,23,0.3);
 }
-#cart table td img{
+#img{
+    width: 5%;
+    border: 10px;
+}
+#showpr table td img{
     padding: 0;
     justify-content:  space-between;
     object-fit: contain;
-    width: 5%;
 }
-#cart table td:hover{
-    box-shadow: 0 0 5px rgba(123,123,23,0.6);
-}
+
+
+

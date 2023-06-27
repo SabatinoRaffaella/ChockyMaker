@@ -137,10 +137,6 @@ Che setteremò per incollonare il testo al centro.
     position:  sticky;
 }
 
-#cart{
-    display: none;
-}
-
 #navbar{
     display: flex;
     align-items: center;

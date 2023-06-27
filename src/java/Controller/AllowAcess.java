@@ -1,6 +1,7 @@
 package Controller;
 
 import Filter.Filter;
+import Model.User;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
@@ -15,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Cookie;
 @WebServlet(name = "AllowAcess", urlPatterns = {"/AllowAcess"})
 public class AllowAcess extends HttpServlet {
     DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
@@ -41,11 +43,12 @@ public class AllowAcess extends HttpServlet {
             String hashPassword = toHash(password);
             String ruolo="";
             String pass="";
+            String email="",indirizzo="",nome="",cognome="",telefono="";
             try{
                 PreparedStatement ps;
                 ResultSet rs;
                 Connection cn = mg.getConnection();
-                ps = cn.prepareStatement("select ruolo,pass from utente where nome_utente=? and pass=?");
+                ps = cn.prepareStatement("select * from utente where nome_utente=? and pass=?");
                 ps.setString(1, username);
                 ps.setString(2, hashPassword);
                 rs= ps.executeQuery();
@@ -53,16 +56,30 @@ public class AllowAcess extends HttpServlet {
                 while(rs.next()){
                     ruolo = rs.getString("ruolo");
                     pass =  rs.getString("pass");
-                }
+                    email = rs.getString("email");
+                    indirizzo = rs.getString("indirizzo");
+                    nome = rs.getString("nome");
+                    cognome = rs.getString("cognome");
+                    telefono = rs.getString("telefono");
+                }              
+                User u = new User(email,nome,cognome,indirizzo,telefono);
+                u.setUsername(username);
+                request.getSession().setAttribute("user", u);
+                
             }
-            catch(SQLException se){}
+            catch(SQLException se){
+                request.setAttribute("errormsg", se.getMessage());
+                response.sendRedirect("error/error.jsp");
+            }
             if(ruolo.matches("admin") && hashPassword.matches(pass)){ //admin
 	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
                 response.sendRedirect("FetchData");			
 		} else if (ruolo.matches("cliente") && hashPassword.matches(pass)){ //user
 			request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
-			request.getSession().setAttribute("userID", username);
-                        response.sendRedirect("Shop");
+			Cookie ck = new Cookie("username",username);
+                        ck.setSecure(true);
+                        response.addCookie(ck);
+                        response.sendRedirect("index.jsp");
 		} else {
 			errors.add("Username o password non validi!");
 			request.setAttribute("errors", errors);

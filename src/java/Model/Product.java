@@ -66,7 +66,9 @@ public class Product implements Serializable{
     public int getAddedToCart() {
         return addedToCart;
     }
-
+    public void removeAll(){
+        this.addedToCart = 0;
+    }
     public void setAddedToCart(int addedToCart) {
         this.addedToCart += addedToCart;
     }

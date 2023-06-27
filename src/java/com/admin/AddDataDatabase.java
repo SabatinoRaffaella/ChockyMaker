@@ -28,13 +28,17 @@ public class AddDataDatabase extends HttpServlet {
         PreparedStatement ps;
         Connection cn= mg.getConnection();
         Filter filt = new Filter();
-            String brand = filt.Filter(request.getParameter("brand"));
-            String name = filt.Filter(request.getParameter("name"));
-            String desc = filt.Filter(request.getParameter("description"));            
-            Double p = Double.valueOf( request.getParameter("price"));
+            String brand = request.getParameter("brand");           
+            String name =  request.getParameter("name");
+            String desc = request.getParameter("description");   
+            Double p = Double.valueOf( request.getParameter("pricetag"));           
             int q = Integer.parseInt (request.getParameter("quantity"));
             Double pr_amouunt = Double.valueOf(request.getParameter("pr_amouunt"));
-            String imgpath= request.getParameter("img");            
+            String imgpath= request.getParameter("img");  
+            desc = filt.Filter(desc);
+            name =  filt.Filter(name);
+            brand = filt.Filter(brand);
+            imgpath = filt.Filter(imgpath);
             String insertSQL = "INSERT INTO " + "Prodotto"
 		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
 	  //ps.setInt(1,id);			       
@@ -48,21 +52,24 @@ public class AddDataDatabase extends HttpServlet {
 		ps.setDouble(6,pr_amouunt);
 		ps.setString(7,imgpath);				
 		ps.executeUpdate();
-                cn.commit();   
+               RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ViewProduct.jsp");
+               dispatcher.forward(request, response);
             }catch(Exception e){
                response.sendError(1, "Error during connection closing");
                response.addHeader("er", "Error during connection closing");
             }
 	    finally{
+              cn.commit();
 	      ps.close(); 
-              cn.close();           
+              cn.close();     
 	 }	
-        }catch(Exception e){
+        }catch(SQLException e){
                response.sendError(2,"Error during query insertion");
-               response.addHeader("er", "Error during query insertion");			   
+               response.addHeader("er", "Error during query insertion");
+               request.setAttribute("errormsg", e.getMessage());
+               response.getWriter().print(e.getMessage());
         }
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/script/ProductView.jsp");
-      //  dispatcher.forward(request, response);
+            
     }    
     @Override
     public String getServletInfo() {
