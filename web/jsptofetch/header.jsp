@@ -13,7 +13,7 @@
         <!-- Basta includere uno script nella sezione di file in cui 
         viene usato e basta importarlo nel file contenente la sezione usata 
         senza doverlo importare da altre parti-->
-        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js" ></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script>
     </head>
     <script>
      function hasClass(element, clsName) {
