@@ -19,8 +19,9 @@ public class CheckSession extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	throws ServletException, IOException {
         Cart usercart;
-        if(request.getSession().getAttribute("userID")==null){    
-            request.getSession().setAttribute("userID", 0); 
+	private static final String uID = "userID";	
+        if(request.getSession().getAttribute(uID)==null){    
+            request.getSession().setAttribute(uID, 0); 
             usercart= new Cart(0);
         }
             /*Controllo se la sessione è nuova e modifico il valore nome del cookie in user altrimenti 
@@ -29,7 +30,7 @@ public class CheckSession extends HttpServlet {
             */
         else{
            User u = (User)request.getSession().getAttribute("user");
-           if(u!=null) request.getSession().setAttribute("userID", u.getUsername());
+           if(u!=null) request.getSession().setAttribute(uID, u.getUsername());
            usercart = (Cart)request.getSession().getAttribute("usercart");        
         }
         try{
@@ -42,7 +43,7 @@ public class CheckSession extends HttpServlet {
                 else usercart.addProduct(selected);
                 request.getSession().setAttribute("usercart", usercart);
                 request.getSession().setAttribute("msg","the element was added succesfully to the cart");                
-                    //response.getWriter().print(request.getSession().getAttribute("userID"));
+                    //response.getWriter().print(request.getSession().getAttribute(uID));
                     //response.getWriter().print(usercart.getProducts().toString());       
             }
             if(action.matches("delete")){
