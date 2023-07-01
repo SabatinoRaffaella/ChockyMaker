@@ -15,7 +15,24 @@
             <link rel="stylesheet" href="../style.css">
             <script>
             function validate(){
-		if(!validateName() || !validateDesc() || !validateBrand()) return false;
+		if(!validateName() || !validateDesc() || !validateBrand() || !validateImgPath()) return false;
+           }
+           function validateImgPath(){
+                let n= document.forms["products"]["img"].value;
+                var pattern=/^[A-Za-z]*[.][f-p]{3}$/;
+		if(!n.match(pattern)){
+                    document.getElementById("error").innerHTML="img needs to be inside the img/prodotti folder and be in the format\n"
+                    +"imgname.imgtype";
+                    error.classList.remove("valid");
+                    error.classList.add("invalid");				
+                return false;
+                }
+		else{
+                    document.getElementById("error").innerHTML="OK";
+                    error.classList.remove("invalid");									
+                    error.classList.add("valid");	
+		return true;					
+		}	
            }
             function validateName(){
                 let n= document.forms["products"]["name"].value;
@@ -72,7 +89,7 @@
      <jsp:include page="navibar.jsp"  flush="true"/>     
      <!-- Prima effetueremò la validazione chiamando uno script che una volta superati tutti i controlli
          restituirà true e permetterà al form di essere inviato al database !-->
-        <div class="section-p1"><form name="products" method="post" action="../AddDataDatabase">
+        <div class="section-p1"><form name="products" method="post"  action="../AddDataDatabase">
             <ol>
               <li><p>  Enter brand of the product: </p>
                    <input type="text" name="brand" onchange="validateBrand()" required>
@@ -84,16 +101,16 @@
                     <input type="text" name="description" onchange="validateDesc()" required>
               </li>			  
               <li><p>  Enter the price of the product to be listed: </p>
-                    <input type="number" name="price" required>
+                    <input type="text" name="pricetag" required>
               </li>			  
               <li><p>  Enter the amount left in stock of product to be listed: </p>
                     <input type="number" name="quantity" required>
               </li>
                 <li><p> Enter the amount in gr of product to be listed </p>
-                  <input type="number" name="amount" required>
+                  <input type="number" name="pr_amouunt" required>
                </li>			   
-        	<li><p>  Enter a photo of the product to be listed: </p>
-                <input type="file" name="img" accept="image/*" required>
+        	<li><p>  Enter the img name (product photo needs to be inside img/prodotti folder): </p>
+                <input type="text" name="img" required>
               </li>              
               <li><input value="Submit" type="submit" name="submit" onclick="return validate()"></li>	      
             </ol>

@@ -41,8 +41,7 @@ public class AddDataDatabase extends HttpServlet {
             imgpath = filt.Filter(imgpath);
             String insertSQL = "INSERT INTO " + "Prodotto"
 		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
-	  //ps.setInt(1,id);			       
-            ps = cn.prepareStatement(insertSQL);
+	    ps = cn.prepareStatement(insertSQL);
             try {
                 ps.setString(1,name);
 		ps.setString(2, desc);

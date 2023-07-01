@@ -13,23 +13,23 @@
         <!-- Basta includere uno script nella sezione di file in cui 
         viene usato e basta importarlo nel file contenente la sezione usata 
         senza doverlo importare da altre parti-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
     </head>
-    <script>
+    <script> 
      function hasClass(element, clsName) {
     return (' ' + element.className + ' ').indexOf(' ' + clsName + ' ') > -1;
     }
     $(document).ready(function(){
-         $('#lpcart').hide();         
+         $('#giggino').hide();         
          $('#lg-bag').click(function(){
-          if (hasClass(document.getElementById('lpcart'),"active")) {     
-          document.getElementById('lpcart').classList.remove("active");
-          $('#lpcart').hide();          
+          if (hasClass(document.getElementById('giggino'),"active")) {     
+          document.getElementById('giggino').classList.remove("active");
+          $('#giggino').hide();          
         }
         else
         { 
-          document.getElementById('lpcart').classList.add("active");  
-          $('#lpcart').show();                  
+          document.getElementById('giggino').classList.add("active");  
+          $('#giggino').show();                  
         }
     });       
     });
@@ -41,26 +41,30 @@
             <ul id="navbar">
                 <li><a class="active" href="index.jsp">Home</a></li> 
                 <li><a href="Shop">Shop</a></li> 
-                <li><a href="blog.html">Blog</a></li> 
                 <li><a href="login.jsp">Login</a></li> 
-                <li><a href="register.jsp">Register</a></li>                
+                <li><a href="register.jsp">Register</a></li> 
+                <li><a href="GetRequestedAccount?action=account_settings"><i class="fa-solid fa-user-gear" style="color: #CCCC66;"></i></a></li>
                 <li><a id="lg-bag"><img src="img\somecart2.png" height="60" width="60" alt="alt"/></a>
-                <div id="lpcart" >           
-                <%
-                    Cart carrello = (Cart)request.getSession().getAttribute("usercart");
-                    for(Product p: carrello.getProducts()){            
-                %>
-                <%=p.toString()%>
-               <% }%>
-                </div>
                 </li>
                 <a href="#" id="close"><i class="fa-solid fa-xmark"></i></a><script src="script/close.js"></script>
             </ul> 
         </div> 
+         <div id="giggino" > 
+             <a href="cart.jsp">Checkout</a>
+             <br>
+                <%
+                    if(request.getSession().getAttribute("usercart")==null);
+                    else{
+                    Cart carrello = (Cart)request.getSession().getAttribute("usercart");                                        
+                    for(Product p: carrello.getProducts()){            
+                %>
+                <%=p.toString()%>
+               <% }}%>
+        </div>           
         <div id="mobile">
         <a href="cart.html"><img src="img\somecart2.png" height="60" width="60" alt="alt"/></a>    
         <i id="bar" class="fas fa-outdent"><script src="script/script.js"></script> </i>            
         </div>
-        </section>    
-    </body>
+        <br>        
+        </section>                
 </html>

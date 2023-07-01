@@ -14,14 +14,15 @@
         <link rel="stylesheet" href="style.css"> 
         <link rel="stylesheet" href="table.css">
     </head>
-    <body>
-        <%   String userID = (String)request.getSession().getAttribute("userID");
-            if(userID==null ||  userID.equals(0)) userID=null;           
+    <body> 
+        <% 
+            String isLoggedIn = (String)request.getSession().getAttribute("isloggedIn");
+            User u = (User)request.getSession().getAttribute("user"); 
+            if(isLoggedIn==null || isLoggedIn.matches("no")) request.getSession().setAttribute("msg", "You need to be logged-in in order to view this page!"); 
+           if(isLoggedIn==null || u==null || isLoggedIn.matches("no"))  response.sendRedirect("login.jsp");          
         %>
-        <% User u = (User)request.getSession().getAttribute("user"); 
-           if(u==null || userID==null)  response.sendRedirect("login.jsp");
-           else{
-        %>
+        <jsp:include page="jsptofetch/header.jsp"  flush="true"/>   
+        <%if(u!=null){%>
         <h2>Welcome, <%=u.getUsername()%></h2>
         <h4>This is your personal page where you can definitely(not) modify stuff</h4>
         <table id="showpr" class="section-p1">
@@ -41,6 +42,7 @@
                 <td><%=u.getAddress()%></td></tr>
             </tbody>
         </table>
-        <% } %>
+       <%}%>     
+        <p><a href="<%=request.getContextPath()%>/Logout">Logout</p>
     </body>
 </html>

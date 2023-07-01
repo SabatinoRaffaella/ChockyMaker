@@ -9,14 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.Properties;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpSession;
 @WebServlet(name = "AllowAcess", urlPatterns = {"/AllowAcess"})
 public class AllowAcess extends HttpServlet {
     DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
@@ -41,9 +43,14 @@ public class AllowAcess extends HttpServlet {
             }
             
             String hashPassword = toHash(password);
+            int id=0;
             String ruolo="";
             String pass="";
-            String email="",indirizzo="",nome="",cognome="",telefono="";
+            String email="";
+            String indirizzo="";
+            String nome="";
+            String cognome="";
+            String telefono="";
             try{
                 PreparedStatement ps;
                 ResultSet rs;
@@ -54,6 +61,7 @@ public class AllowAcess extends HttpServlet {
                 rs= ps.executeQuery();
                
                 while(rs.next()){
+                    id = rs.getInt("id");
                     ruolo = rs.getString("ruolo");
                     pass =  rs.getString("pass");
                     email = rs.getString("email");
@@ -62,10 +70,9 @@ public class AllowAcess extends HttpServlet {
                     cognome = rs.getString("cognome");
                     telefono = rs.getString("telefono");
                 }              
-                User u = new User(email,nome,cognome,indirizzo,telefono);
+                User u = new User(id,email,nome,cognome,indirizzo,telefono);
                 u.setUsername(username);
-                request.getSession().setAttribute("user", u);
-                
+                request.getSession().setAttribute("user", u);               
             }
             catch(SQLException se){
                 request.setAttribute("errormsg", se.getMessage());
@@ -75,18 +82,58 @@ public class AllowAcess extends HttpServlet {
 	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
                 response.sendRedirect("FetchData");			
 		} else if (ruolo.matches("cliente") && hashPassword.matches(pass)){ //user
-			request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
-			Cookie ck = new Cookie("username",username);
-                        ck.setSecure(true);
-                        response.addCookie(ck);
-                        response.sendRedirect("index.jsp");
+                    request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
+                    generateNewSession(request);
+                    request.getSession().setAttribute("isloggedIn", "yes");  
+                    response.sendRedirect("index.jsp");
 		} else {
-			errors.add("Username o password non validi!");
-			request.setAttribute("errors", errors);
-			dispatcherToLoginPage.forward(request, response);
+                    errors.add("Username o password non validi!");
+                    request.setAttribute("errors", errors);
+                    dispatcherToLoginPage.forward(request, response);
 		}
 	}
-	
+        ///Generates a new session while saving data from the old one
+        // and deletes the old session:
+        public void generateNewSession(HttpServletRequest  request){
+            //Salviamo la vecchia sessione all'interno di oldsession
+            HttpSession oldsession = request.getSession();
+            ///Creiamo un elenco di proprietà che utlizzeremo per 
+            //immagazzinare gli attributi temporaneamente.
+            ///Le proprietà sono composte da coppie chiave-valore quindi 
+            // sono ideali per memorizzare i dati della sessione:
+            Properties attr = new Properties();         
+            //Salviamo i nomi degli attributi in una enumerazione sotto forma di Oggetti
+            Enumeration attributeNm = oldsession.getAttributeNames();
+            //Non potendo iterare direttamente sugli oggetti-attributi iteriamo
+            // sull'elenco dei loro nomi, controllando che attributeNm inizialmente che sia diverso da null.
+            if(attributeNm!=null){
+                while(attributeNm.hasMoreElements()){
+                    //Dichiariamo una chiave che conterrà il valore
+                    //dei nomi cicclati degli attributi di sessione
+                    String key = (String)attributeNm.nextElement();
+                    //Dal risultato di questo ciclo otteniamo che adesso
+                    // attr di tipo Properties contiene tutte le coppie 
+                    // contenute all'interno cella vecchia sessione.
+                    attr.put(key, oldsession.getAttribute(key));
+                }
+                
+                //Elimino la vecchia sessione.
+                oldsession.invalidate();
+                HttpSession newsession = request.getSession(true);
+                
+                //Returns an enumeration of the keys in this hashtable.
+                // attr.keys restituisce un (Enumerazione delle chiavi contenute all'interno della 
+                // della mappa)  il che ci permette di iterare nuovamente sul valore del nome degli 
+                // attributi-chiavi:
+                attributeNm = attr.keys();
+                while(attributeNm.hasMoreElements()){
+                    String key = (String)attributeNm.nextElement();
+                    newsession.setAttribute(key, attr.get(key));
+                    request.getSession().setAttribute(key, attr.get(key));
+                }
+            }
+        }
+    
 	private String toHash(String password) {
         String hashString = null;
         try {
@@ -96,7 +143,7 @@ public class AllowAcess extends HttpServlet {
             for (int i = 0; i < hash.length; i++) {
                 hashString += Integer.toHexString( 
                    (hash[i] & 0xFF) | 0x100 )
-				   .toLowerCase().substring(1,3);
+                .toLowerCase().substring(1,3);
             }
         } catch (java.security.NoSuchAlgorithmException e) {
         }
@@ -104,8 +151,8 @@ public class AllowAcess extends HttpServlet {
     }
     @Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		doPost(request, response);
+            throws ServletException, IOException {
+            doPost(request, response);
 	}	
      private static final long serialVersionUID = 1L;
     

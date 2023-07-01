@@ -1,7 +1,13 @@
 package Model;
 public class User {
     private String email,name,surname,address,phoneNumber,password,username;
-    public User(String email,String name,String surname,String address,String phoneNumber){
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+    public User(int id,String email,String name,String surname,String address,String phoneNumber){
+        this.id = id;
         this.email= email;
         this.name= name;
         this.surname= surname;            

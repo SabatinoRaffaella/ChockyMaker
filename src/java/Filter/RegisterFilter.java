@@ -51,7 +51,7 @@ public class RegisterFilter extends HttpServlet {
                     response.sendRedirect("register.jsp");
                 }
                 else{
-                    User newuser= new User(email,name,surname,address,phoneNumber);
+                    User newuser= new User(0,email,name,surname,address,phoneNumber);
                     String onepass = SecurePassword.generateRandomPassword();
                     newuser.setPassword(onepass);
                     request.getSession().setAttribute("user", newuser);
@@ -59,7 +59,10 @@ public class RegisterFilter extends HttpServlet {
                     dispatcher.forward(request,response);   
                 }
             }
-            catch(SQLException sql){           
+            catch(SQLException sql){
+                String errormsg = "there was an unexpected error during registration \n"+sql.getMessage();;
+                request.getSession().setAttribute("error", errormsg);
+                response.sendRedirect("register.jsp");
             }                 
     } 
     @Override
