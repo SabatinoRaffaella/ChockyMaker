@@ -53,14 +53,14 @@ public class RegisterFilter extends HttpServlet {
                 else{
                     User newuser= new User(0,email,name,surname,address,phoneNumber);
                     String onepass = SecurePassword.generateRandomPassword();
-                    newuser.setPassword(onepass);
+                    request.getSession().setAttribute("onepass", onepass);
                     request.getSession().setAttribute("user", newuser);
-                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/SendEmail");
+                    RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Result.jsp");
                     dispatcher.forward(request,response);   
                 }
             }
             catch(SQLException sql){
-                String errormsg = "there was an unexpected error during registration \n"+sql.getMessage();;
+                String errormsg = "there was an unexpected error during registration \n"+sql.getMessage();
                 request.getSession().setAttribute("error", errormsg);
                 response.sendRedirect("register.jsp");
             }                 

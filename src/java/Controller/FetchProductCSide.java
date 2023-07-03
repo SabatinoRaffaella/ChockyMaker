@@ -49,18 +49,22 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         }
         finally{
             try {
-                mg.releaseConnection(cn);
-                cn.close();
+                mg.releaseConnection(cn);              
             } catch (SQLException ex) {
                 Logger.getLogger(FetchProductCSide.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
         request.getSession().setAttribute("listed", listed);
-	//request.setAttribute("listed", listed);
+        Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+	if(isAdmin){
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/ViewProduct.jsp");
+            dispatcher.forward(request,response);  
+        }
+        else{
 	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
         dispatcher.forward(request,response);    
-       
+        }
     }   
    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

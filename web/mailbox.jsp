@@ -4,6 +4,8 @@
     Author     : raffy
 --%>
 
+<%@page import="Model.Product"%>
+<%@page import="Model.Cart"%>
 <%@page import="Controller.Email.Email"%>
 <%@page import="Controller.Email.EmailList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -29,12 +31,10 @@
             <%=em.getContent()%>
         </td>
 	</tr>
-	<%            
+         </table>
+        <%            
             }
         }
-	%>
-        </table>
-	</section>
-    
+        %>
     </body>
 </html>

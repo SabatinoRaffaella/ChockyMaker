@@ -25,6 +25,14 @@ public class AllowAcess extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        String islgn = (String)request.getSession().getAttribute("isloggedIn");
+        if(islgn==null);
+        else {if(islgn.matches("yes")){
+            request.setAttribute("errors", "already logged in"); 
+            response.sendRedirect("login.jsp");
+            return;
+        } 
+        }
 	Filter filt = new Filter();		
         String password= filt.Filter(request.getParameter("password"));
         String username= filt.Filter(request.getParameter("username"));
@@ -80,13 +88,15 @@ public class AllowAcess extends HttpServlet {
             }
             if(ruolo.matches("admin") && hashPassword.matches(pass)){ //admin
 	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
-                response.sendRedirect("FetchData");			
+                request.getSession().setAttribute("isloggedIn", "yes");  
+                response.sendRedirect("FetchProductCSide");			
 		} else if (ruolo.matches("cliente") && hashPassword.matches(pass)){ //user
                     request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
                     generateNewSession(request);
                     request.getSession().setAttribute("isloggedIn", "yes");  
                     response.sendRedirect("index.jsp");
 		} else {
+                    request.getSession().setAttribute("isloggedIn", "no");               
                     errors.add("Username o password non validi!");
                     request.setAttribute("errors", errors);
                     dispatcherToLoginPage.forward(request, response);

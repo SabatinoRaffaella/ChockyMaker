@@ -1,17 +1,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-    <%Boolean isAdmin = (Boolean) session.getAttribute("isAdmin");
-    if ((isAdmin == null) || (!isAdmin)){	
-        response.sendRedirect(request.getContextPath() + "/login.jsp"); 
-        return;
-    }
-    %>        
+    <head>       
         <title>Add Product Form</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="adminprodControl.css"> 
+            <link rel="stylesheet" href="prod.css"> 
             <link rel="stylesheet" href="../style.css">
             <script>
             function validate(){

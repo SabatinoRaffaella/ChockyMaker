@@ -25,5 +25,11 @@ public class Listed {
     public List<Product> getProducts() {
 	return  products;
     }
+    
+    public int getLastOne(){
+        int pos_last = products.size()-1;
+        return products.get(pos_last).getId();
+    }
+    
 }
    

@@ -22,6 +22,16 @@ public class Product implements Serializable{
 	amount=0.0;
 	img="";
     }
+    public Product(int id,String name, String desc, String brand, double p, int q,double pr_amouunt,String imgpath){
+        this.id = id;
+        this.name= name;
+        this.description= desc;
+        this.quantity = q;
+        this.price = p;
+        this.amount = pr_amouunt;
+        this.img = imgpath;
+        this.brand = brand;
+    }
     public double getPrice() {
         return price;
     }

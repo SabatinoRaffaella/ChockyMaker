@@ -25,14 +25,31 @@ public class FilterPassword extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)           
             throws ServletException, IOException {
-        DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
+        /// Prima controlla che l'utente abbia inserito il giusto captcha 
+        // se il captcha inserito è giusto, effettua l'escape dei caratteri dannosi 
+        // e completa la registrazione.
         Filter filt = new Filter();
+        String otp = filt.Filter(request.getParameter("OTP"));
+        String onep= (String)request.getSession().getAttribute("onepass");
+        if(!otp.matches(onep)){
+            request.getSession().setAttribute("guessedOTP", "notguessed");
+            request.getSession().setAttribute(onep, "");
+            request.getSession().setAttribute("error","Captcha code was wrong!");
+            response.sendRedirect("register.jsp");
+            return;
+        } 
+        if(onep==null){
+          request.getSession().setAttribute("error","error during finals steps of registration");
+          response.sendRedirect("register.jsp");
+          return;
+        }
+        
+        DriverManagerConnectionPool mg= new DriverManagerConnectionPool();  
         String password = filt.Filter(request.getParameter("Password"));
         password = toHash(password);        
-        String username = filt.Filter(request.getParameter("username"));
-        
+        String username = filt.Filter(request.getParameter("username"));        
         try{
-        String errormsg="";
+            String errormsg="";
                 Connection cn= mg.getConnection();
                 PreparedStatement ps;
                 ResultSet rs;
@@ -50,6 +67,10 @@ public class FilterPassword extends HttpServlet {
                 }
                 else{
                     User u= (User)request.getSession().getAttribute("user");
+                    if(u==null){
+                        request.getSession().setAttribute("error", "user ibnformation were empty when sent");
+                        response.sendRedirect("register.jsp");
+                    } 
                     u.setPassword(password);
                     u.setUsername(username);
                     RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Register");
@@ -59,7 +80,9 @@ public class FilterPassword extends HttpServlet {
             String errormsg = "there was an unexpected error during password filtering \n"+sql.getMessage();
             request.getSession().setAttribute("error", errormsg);
         }
-    } 
+        
+    
+    }    
     private String toHash(String password) {
         String hashString = null;
         try {

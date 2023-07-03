@@ -3,7 +3,6 @@ import Model.User;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -56,8 +55,7 @@ public class Register extends HttpServlet {
                response.sendError(2,"Error during query insertion");
                response.addHeader("er", "Error during query insertion");			   
         }
-        RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/login.jsp");
-        dispatcher.forward(request,response); 
+        response.sendRedirect("/login.jsp");
 }
    @Override
     public String getServletInfo() {

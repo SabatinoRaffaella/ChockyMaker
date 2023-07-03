@@ -2,6 +2,8 @@ package com.admin;
 import java.io.IOException;
 import Controller.DriverManagerConnectionPool;
 import Filter.Filter;
+import Model.Listed;
+import Model.Product;
 import java.sql.*;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,13 +53,16 @@ public class AddDataDatabase extends HttpServlet {
 		ps.setDouble(6,pr_amouunt);
 		ps.setString(7,imgpath);				
 		ps.executeUpdate();
-               RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/ViewProduct.jsp");
-               dispatcher.forward(request, response);
+                
+                Listed lis = (Listed)request.getSession().getAttribute("listed");
+                int laste = lis.getLastOne();
+                lis.addProduct(new Product(laste+1,name,desc,brand,p,q,pr_amouunt,imgpath));
+                response.sendRedirect("admin/ViewProduct.jsp");               
             }catch(Exception e){
                response.sendError(1, "Error during connection closing");
                response.addHeader("er", "Error during connection closing");
             }
-	    finally{
+	    finally{       
               cn.commit();
 	      ps.close(); 
               cn.close();     

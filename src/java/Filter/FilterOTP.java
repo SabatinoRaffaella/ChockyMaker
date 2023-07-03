@@ -1,6 +1,4 @@
 package Filter;
-
-import Model.User;
 import java.io.IOException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -24,13 +22,14 @@ public class FilterOTP extends HttpServlet {
             throws ServletException, IOException {
         Filter filt = new Filter();
         String password = filt.Filter(request.getParameter("OTP"));
-        User u= (User)request.getSession().getAttribute("user");
-        if( password.matches(u.getPassword())){
-          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Result.jsp");
-          dispatcher.forward(request,response);              
+        String onep= (String)request.getSession().getAttribute("onepass");
+        if(password.matches(onep)){
+            request.getSession().setAttribute("guessedOTP", "guessed");
+            response.sendRedirect("Result.jsp");
         } 
         else{
-            u.setPassword("");
+            request.getSession().setAttribute("guessedOTP", "notguessed");
+            request.getSession().setAttribute(onep, "");
             response.sendRedirect("error/error.jsp");
         } 
     }

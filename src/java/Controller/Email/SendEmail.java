@@ -30,7 +30,6 @@ public class SendEmail extends HttpServlet {
             //dispatcher.forward(request,response);   
             resultMessage = "The e-mail was sent successfully";
         } catch (Exception ex) {
-            ex.printStackTrace();
             resultMessage = "There were an error: " + ex.getMessage();
         } finally {
             request.setAttribute("Message", resultMessage);

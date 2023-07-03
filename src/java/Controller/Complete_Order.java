@@ -10,7 +10,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,22 +87,25 @@ public class Complete_Order extends HttpServlet {
                     order_id = rs.getInt("LAST_INSERT_ID()");
                 }     
                 int i=0;
+                Cart orderL = new Cart(u.getUsername());
                 while(i<usercart.getProducts().size()){
                     pt = cn.prepareStatement("insert into Dettagli_Ordine (id_ordine,id_prodotto,quantità,sub_totale,metodo_pagamento) VALUES (?,?,?,?,?)");
+                    int addedtoc = usercart.fetchByOrder(i).getAddedToCart();
+                    int idp = usercart.fetchByOrder(i).getId();
                     pt.setInt(1, order_id);
-                    pt.setInt(2,usercart.fetchByOrder(i).getId());
-                    pt.setInt(3, usercart.fetchByOrder(i).getAddedToCart());
-                    pt.setDouble(4, usercart.getAddedToCart()*usercart.fetchByOrder(i).getPrice());
+                    pt.setInt(2,idp);
+                    pt.setInt(3, addedtoc);
+                    pt.setDouble(4, addedtoc * usercart.fetchByOrder(i).getPrice());
                     pt.setString(5, po);
                     pt.executeUpdate();
-                    i++;
+                    
+                    orderL.addProduct(usercart.fetchByOrder(i),idp);
+                    i++;                  
                 }              
             cn.commit();      
-            String st = Integer.toString(usercart.getAddedToCart());
-            Cookie ck= new Cookie("ck",st);
             if(usercart.emptyCart()){ 
             request.getSession().setAttribute("usercart", usercart);
-            response.sendRedirect("index.jsp");
+            response.sendRedirect("mailbox.jsp");
             }
             else{
                 request.getSession().setAttribute("errormsg", "There was an error during the order: "+ "\n"+usercart.getProducts().size());

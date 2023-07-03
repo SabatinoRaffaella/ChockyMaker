@@ -24,8 +24,10 @@
         <jsp:include page="jsptofetch/header.jsp"  flush="true"/>   
         <%if(u!=null){%>
         <h2>Welcome, <%=u.getUsername()%></h2>
+        <h2><a href="mailbox.jsp"><i class="fa-sharp fa-solid fa-truck-fast trucky"></i></a></h2>
         <h4>This is your personal page where you can definitely(not) modify stuff</h4>
         <table id="showpr" class="section-p1">
+            <caption>User info</caption>
             <tr>
                 <th>Nome</th>
                 <th>Cognome</th>
