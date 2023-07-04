@@ -1,5 +1,6 @@
 package com.admin;
 
+import Controller.DriverManagerConnectionPool;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,7 +35,7 @@ public class RemoveItem extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+         DriverManagerConnectionPool mg= new DriverManagerConnectionPool();
     }
 
     /**

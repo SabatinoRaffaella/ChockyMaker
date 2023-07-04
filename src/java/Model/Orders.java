@@ -37,7 +37,8 @@ public class Orders extends HttpServlet {
           dispatcher.forward(request,response);
         } 
         else {
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/mailbox.jsp"); 
+            response.getWriter().print(orders.toString());
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/orders.jsp"); 
               dispatcher.forward(request,response);
         }
     }

@@ -5,7 +5,6 @@ import Filter.Filter;
 import Model.Listed;
 import Model.Product;
 import java.sql.*;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

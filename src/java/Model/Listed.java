@@ -8,6 +8,12 @@ public class Listed {
     public Listed() {
 	products = new ArrayList<>();
     }
+    public Product fetchByPrId(int id){
+        for(Product prod: products){
+            if(prod.getId()==id) return prod;
+        }
+        return null;
+    }
     public Product fetchById(int id){
         return products.get(id);
     } 

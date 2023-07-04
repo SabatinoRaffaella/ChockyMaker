@@ -9,42 +9,21 @@ public class Order {
     LocalDate order_sentd;
     String address;
     
-    public Order(int id_order, ArrayList dt, User user, LocalDate order_date, LocalDate order_sentd, String address) {
+    public Order(int id_order, User user, LocalDate order_date, LocalDate order_sentd, String address) {
         this.id_order = id_order;
-        this.dt = dt;
         this.user = user;
         this.order_date = order_date;
         this.order_sentd = order_sentd;
         this.address = address;
     }
-    
-    
-    /*public ArrayList addOrderedItem(Product po){
-        this.product_list.add(po);
-        this.numItem++;
-        return this.product_list;
+    public void addOrderdt(ArrayList dt){
+        this.dt = dt;
     }
-    *//*
     @Override
-    public String toString(){
-        return "Order was sent in date: "+getDateOrder()
-                +" with a total of "+getNumItem()+" item ordered \n"
-                +" extra description of the products: \n"+getDescription()+"\n"
-                +"\n"+ alli();
-    }*/
-    /*
-    public String alli(){
-        int i=0;
-        Product p =(Product) this.product_list.get(i);
-        String s="";
-        while(i<this.numItem){
-            s = s.concat(p.toString());
-            
-            i++;
-        }
-        return s;
+    public String toString() {
+        return super.toString(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-    */
+  
 
     public int getId_order() {
         return id_order;

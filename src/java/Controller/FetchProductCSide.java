@@ -57,6 +57,11 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         
         request.getSession().setAttribute("listed", listed);
         Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+        if(isAdmin==null){
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
+            dispatcher.forward(request,response);
+            return;
+        } 
 	if(isAdmin){
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/ViewProduct.jsp");
             dispatcher.forward(request,response);  
