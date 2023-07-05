@@ -76,7 +76,7 @@ public class FetchOrders extends HttpServlet {
             while(i<order_am){
                 int id_ord = orders.get(i).getId_order();
                 PreparedStatement pt;
-                pt = cn.prepareStatement("select * from Dettagli_Ordine inner join Prodotto on Dettagli_Ordine.id_prodotto = Prodotto.id where id_ordine=?");
+                pt = cn.prepareStatement("select * from Dettagli_Ordine where id_ordine=?");
                 pt.setInt(1, id_ord);
                 rs = pt.executeQuery();
                 ArrayList<Order_Details> dt= new ArrayList<>();
@@ -94,10 +94,9 @@ public class FetchOrders extends HttpServlet {
                 }
                 orders.get(i).addOrderdt(dt);
                 i++;
-            }  
-            
+            }             
             request.getSession().setAttribute("orders", orders);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/orders.jsp"); 
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Orders"); 
             dispatcher.forward(request,response);
         }catch(SQLException sql){
             request.getSession().setAttribute("errormsg", sql.getMessage());

@@ -43,12 +43,10 @@ public class DriverManagerConnectionPool  {
             newConnection.setAutoCommit(false);
             return newConnection;                
 	}
-        catch(IOException | SQLException e){
+        catch(IOException | SQLException e){           
             System.out.println("Error occurred here");
             System.out.println(e.getMessage());
-        }
-        finally{
-            return newConnection;
+            return null;
         }
     }
 

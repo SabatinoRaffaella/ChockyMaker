@@ -26,7 +26,7 @@ public class AllowAcess extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
         User checku = (User) request.getSession().getAttribute("user");
-        if(checku!=null){
+        if(checku!=null ){
             request.setAttribute("errors", "already logged in"); 
             response.sendRedirect("login.jsp");
             return;
@@ -43,11 +43,11 @@ public class AllowAcess extends HttpServlet {
             	errors.add("Il campo password non può essere vuoto!");
 			}
             if (!errors.isEmpty()) {
-            	request.setAttribute("errors", errors);
+            	request.getSession().setAttribute("errors", errors);
+                errors.clear();
             	dispatcherToLoginPage.forward(request, response);
             	return; // note the return statement here!!!
             }
-            
             String hashPassword = toHash(password);
             int id=0;
             String ruolo="";
@@ -75,34 +75,39 @@ public class AllowAcess extends HttpServlet {
                     nome = rs.getString("nome");
                     cognome = rs.getString("cognome");
                     telefono = rs.getString("telefono");
-                }              
-                User u = new User(id,email,nome,cognome,indirizzo,telefono);
-                u.setUsername(username);
-                request.getSession().setAttribute("user", u);               
+                }                          
             }
             catch(SQLException se){
                 request.setAttribute("errormsg", se.getMessage());
                 response.sendRedirect("error/error.jsp");
-            }
-            generateNewSession(request);
-            
-            if(ruolo.matches("admin") && hashPassword.matches(pass)){ //admin
-	        request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
-                request.getSession().setAttribute("isloggedIn", "yes");  
-                response.sendRedirect("FetchProductCSide");			
-            } 
-            else 
-                if (ruolo.matches("cliente") && hashPassword.matches(pass)){ //user
+            }  
+            //Inizialmenmte con la query sql usiamo nome utente e password per controllare
+            // se l'utente è presente nel Database.
+            //I dati dell'utente vengono memorizzati solo quando l'accesso è avvenuto
+            // correttamente.
+            //Dopo aver fatto il controllo settiamo isLoggedIn con yes e se l'utente
+            // tenterà di accedere nuovamente verrà reindirizzato verso il login 
+            if(hashPassword.matches(pass)){
+                User u = new User(id,email,nome,cognome,indirizzo,telefono);
+                u.setUsername(username);
+                request.getSession().setAttribute("user", u);   
+                request.getSession().setAttribute("isloggedIn", "yes"); 
+                generateNewSession(request);
+                if(ruolo.matches("admin")){
+                    request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
+                    response.sendRedirect("FetchProductCSide");
+                }
+                else if (ruolo.matches("cliente")){ //user
                     request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
-                    request.getSession().setAttribute("isloggedIn", "yes");  
                     response.sendRedirect("index.jsp");
-                } 
-                else{
-                    request.getSession().setAttribute("isloggedIn", "no");               
-                    errors.add("Username o password non validi!");
-                    request.setAttribute("errors", errors);
-                    dispatcherToLoginPage.forward(request, response);
-		}
+                }   
+            }
+            else{
+                request.getSession().setAttribute("isloggedIn", "no");               
+                errors.add("Username o password non validi!");
+                request.getSession().setAttribute("errors", errors);
+                dispatcherToLoginPage.forward(request, response);
+            }
 	}
         ///Generates a new session while saving data from the old one
         // and deletes the old session:

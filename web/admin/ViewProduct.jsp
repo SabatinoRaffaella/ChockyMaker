@@ -36,7 +36,7 @@
           for(Product p: products.getProducts()){
 	%>
 	<tr>
-        <td><a href="RemoveItem?&id=<%=p.getId()%>"><i class="far fa-times-circle"></i></a></td>
+        <td><a href="../RemoveItem?&id=<%=p.getId()%>"><i class="far fa-times-circle"></i></a></td>
         <td><%=p.getId()%></td>
 	<td><%=p.getName()%></td>
         <td><%=p.getDescription()%></td>

@@ -1,3 +1,4 @@
+<%@page import="Model.Product"%>
 <%@page import="Model.Order_Details"%>
 <%@page import="Model.Order"%>
 <%@page import="java.util.ArrayList"%>
@@ -31,13 +32,15 @@
             ArrayList<Order_Details> odt = od.getDt();
          %>
          <% for(Order_Details t : odt){ %>
-            <tr><td><%=t.getP().toString()%></tr></td>
-        <br>
             <tr><td>Quantità Pr Acquistata: <%=t.getQt_pr()%></td></tr>
             <br>
             <tr><td>Metodo di Pagamento: <%=t.getPaymn()%></td></tr>
             <br>
             <tr><td>SubTotale: <%=t.getSub_p()%></td></tr>
+            <%Product p=t.getP();%>
+            <%if(p!=null){ %>
+            <tr><td><%=p.toString()%></tr></td>
+        <br><% } %>           
         </table>
         <%   }     
             }

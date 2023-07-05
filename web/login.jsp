@@ -10,7 +10,7 @@
    <link rel="stylesheet" href="style.css">
     <jsp:include page="jsptofetch/header.jsp"  flush="true"/>     
 <% 
-List<String> errors = (List<String>) request.getAttribute("errors");
+List<String> errors = (List<String>) request.getSession().getAttribute("errors");
 if (errors != null){
 	for (String error: errors){ %>
 		<%=error %> <br>		

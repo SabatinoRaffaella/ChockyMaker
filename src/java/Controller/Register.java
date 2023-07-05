@@ -49,13 +49,14 @@ public class Register extends HttpServlet {
             }
 	    finally{
 	      ps.close(); 
-              cn.close();           
+              cn.close();
+              request.getSession().setAttribute("user", null);
 	 }	
         }catch(Exception e){
                response.sendError(2,"Error during query insertion");
                response.addHeader("er", "Error during query insertion");			   
         }
-        response.sendRedirect("/login.jsp");
+        response.sendRedirect("login.jsp");
 }
    @Override
     public String getServletInfo() {

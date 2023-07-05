@@ -26,7 +26,6 @@ public class CheckSession extends HttpServlet {
         L'accesso
         */
         else{
-           User u = (User)request.getSession().getAttribute("user");
            usercart = (Cart)request.getSession().getAttribute("usercart");        
         }
         try{
@@ -36,9 +35,19 @@ public class CheckSession extends HttpServlet {
             Listed list = (Listed)request.getSession().getAttribute("listed");
             Product selected = (list.fetchById(id));
             id++;
-            if(action.matches("addC")){               
-                if(usercart.checkIfPresent(selected)) usercart.fetchById(id).setAddedToCart(1);
-                else usercart.addProduct(selected,id);
+            if(action.matches("addC")){      
+                if(usercart.fetchById(id).getQuantity()!=0){
+                    if(usercart.checkIfPresent(selected)){ 
+                        usercart.fetchById(id).setAddedToCart(1);
+                   
+                    }
+                    else usercart.addProduct(selected,id);
+                }
+                else{
+                    request.getSession().setAttribute("errormsg", "The product selected is currently unavailable");
+                    response.sendRedirect("shop.jsp");
+                    return;
+                }             
                 request.getSession().setAttribute("usercart", usercart);
                 request.getSession().setAttribute("msg","the element was added succesfully to the cart");                
             }

@@ -63,8 +63,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
             return;
         } 
 	if(isAdmin){
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/admin/ViewProduct.jsp");
-            dispatcher.forward(request,response);  
+            response.sendRedirect("admin/ViewProduct.jsp");
         }
         else{
 	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
