@@ -48,6 +48,9 @@ public class DriverManagerConnectionPool  {
             logger.log(rec);
             return null;
         }
+        finally{
+            newConnection.close();
+        }
     }
 
 	public synchronized Connection getConnection() throws SQLException {
