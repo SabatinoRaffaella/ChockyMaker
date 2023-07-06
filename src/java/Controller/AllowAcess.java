@@ -92,7 +92,7 @@ public class AllowAcess extends HttpServlet {
                 u.setUsername(username);
                 request.getSession().setAttribute("user", u);   
                 request.getSession().setAttribute("isloggedIn", "yes"); 
-                generateNewSession(request);
+                generateNewSession(request);                
                 if(ruolo.matches("admin")){
                     request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
                     response.sendRedirect("FetchProductCSide");
@@ -100,12 +100,21 @@ public class AllowAcess extends HttpServlet {
                 else if (ruolo.matches("cliente")){ //user
                     request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
                     response.sendRedirect("index.jsp");
-                }   
+                }               
             }
             else{
-                request.getSession().setAttribute("isloggedIn", "no");               
-                errors.add("Username o password non validi!");
+                request.getSession().setAttribute("isloggedIn", "no");                
+                int retry;
+                if(request.getSession().getAttribute("retries")==null) retry=0;  
+                else retry = (int) request.getSession().getAttribute("retries");
+                if(retry>=3){
+                    User u = new User(0,"ni","nil","nil","nil","nil");
+                    request.getSession().setAttribute("user", u);
+                }
+                errors.add("Username o password non validi! Retries availables: 3-"+ retry);
                 request.getSession().setAttribute("errors", errors);
+                retry++;
+                request.getSession().setAttribute("retries", retry);
                 dispatcherToLoginPage.forward(request, response);
             }
 	}
