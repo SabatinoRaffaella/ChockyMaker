@@ -56,7 +56,8 @@ public class FetchOrders extends HttpServlet {
             int order_am = 0;
             Listed l = (Listed)request.getSession().getAttribute("listed");
                 if(l==null){
-                    response.sendRedirect("index.jsp");
+                    request.getSession().setAttribute("comeback", "/FetchOrders");
+                    response.sendRedirect("FetchProductCSide");
                     return;
                 }
             Connection cn = mg.getConnection();         

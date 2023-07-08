@@ -36,10 +36,8 @@ public class Orders extends HttpServlet {
           RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/FetchOrders"); 
           dispatcher.forward(request,response);
         } 
-        else {
-            response.getWriter().print(orders.toString());
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/orders.jsp"); 
-              dispatcher.forward(request,response);
+        else {       
+            response.sendRedirect("orders.jsp"); 
         }
     }
     @Override

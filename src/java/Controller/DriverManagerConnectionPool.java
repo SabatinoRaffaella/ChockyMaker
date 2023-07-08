@@ -1,4 +1,6 @@
 package Controller;
+
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -41,15 +43,8 @@ public class DriverManagerConnectionPool  {
             newConnection.setAutoCommit(false);
             return newConnection;                
 	}
-        catch(IOException | SQLException e){           
-            Logger logger=null;
-            LogRecord rec=null;
-            rec.setMessage("DB driver not found:"+ e.getMessage());  
-            logger.log(rec);
+        catch(IOException | SQLException e){     
             return null;
-        }
-        finally{
-            newConnection.close();
         }
     }
 

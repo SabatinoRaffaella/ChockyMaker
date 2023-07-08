@@ -8,8 +8,12 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Order Page</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="table.css">
     </head>
     <body>
+         <jsp:include page="jsptofetch/header.jsp"  flush="true"/>
+        <section id="showpr" class="section-p1">
     <%  ArrayList<Order> orders= (ArrayList)request.getSession().getAttribute("orders");
      %>  
      <table> <caption>List of orders</caption> <th>Orders</th>
@@ -18,33 +22,29 @@
           int i=0;
           for(Order od: orders){       
 	%>
-         <br>
          <th>ID_ORDINE:</th>
-        <tr><td><%=od.getId_order()%></td></tr>
-        <tr>
-        <td>
-        </td>
-        </tr>
-        </table>
-        <table>
+        <tr><td><%=od.getId_order()%></td></tr>             
             <th>DETTAGLI ORDINE:</th>    
          <%i= od.getDt().size();
             ArrayList<Order_Details> odt = od.getDt();
          %>
          <% for(Order_Details t : odt){ %>
+            <tr><td>Id del prodotto Acquistato: </td></tr>
             <tr><td>Quantità Pr Acquistata: <%=t.getQt_pr()%></td></tr>
-            <br>
             <tr><td>Metodo di Pagamento: <%=t.getPaymn()%></td></tr>
-            <br>
             <tr><td>SubTotale: <%=t.getSub_p()%></td></tr>
+            <tr>
             <%Product p=t.getP();%>
             <%if(p!=null){ %>
-            <tr><td><%=p.toString()%></tr></td>
-        <br><% } %>           
-        </table>
+            <td><%=p.toString()%></td>
+            </tr>
+           <% } %>           
+       
         <%   }     
             }
         }
         %>
+         </table>
+        </section>
     </body>
 </html>

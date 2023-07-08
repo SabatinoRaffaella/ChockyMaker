@@ -22,7 +22,7 @@ public class Cart extends Product{
         return this.products.get(i);
     }
     public Product fetchById(int id){
-        for(Product prod: products){
+        for(Product prod: this.products){
             if(prod.getId()==id) return prod;
         }
         return null;
@@ -35,9 +35,8 @@ public class Cart extends Product{
         return this.products.removeAll(products);
     }
     
-    public void addProduct(Product product,int id) {
-	products.add(product);
-        product.setId(id);
+    public void addProduct(Product product) {
+	this.products.add(product);
         product.setAddedToCart(1);
     }	
     public void deleteProduct(Product product) {

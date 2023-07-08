@@ -41,7 +41,7 @@ public class AddDataDatabase extends HttpServlet {
             brand = filt.Filter(brand);
             imgpath = filt.Filter(imgpath);
             String insertSQL = "INSERT INTO " + "Prodotto"
-		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image) VALUES (?, ?, ?, ?, ?, ?, ?)";	        
+		+ " (Name, description, brand, price, quantity,pr_amouunt, prod_image, deleted) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";	        
 	    ps = cn.prepareStatement(insertSQL);
             try {
                 ps.setString(1,name);
@@ -50,12 +50,14 @@ public class AddDataDatabase extends HttpServlet {
 		ps.setDouble(4,p);	
 		ps.setInt(5,q);	
 		ps.setDouble(6,pr_amouunt);
-		ps.setString(7,imgpath);				
+		ps.setString(7,imgpath);
+                ps.setBoolean(8, false);
 		ps.executeUpdate();
                 
                 Listed lis = (Listed)request.getSession().getAttribute("listed");
                 int laste = lis.getLastOne();
-                lis.addProduct(new Product(laste+1,name,desc,brand,p,q,pr_amouunt,imgpath));
+                lis.addProduct(new Product(laste+1,name,desc,brand,p,q,pr_amouunt,imgpath,false));
+                request.getSession().setAttribute("listed", lis);
                 response.sendRedirect("admin/ViewProduct.jsp");               
             }catch(Exception e){
                response.sendError(1, "Error during connection closing");

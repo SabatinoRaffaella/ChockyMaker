@@ -35,6 +35,17 @@
     });       
     });
     </script>
+     <script type="text/javascript">
+           $(document).ready(function(){           
+                    $.ajax({
+                        type: "post",
+                        url: "FetchProductCSide?action=loadp",
+                        data:  $('#pr_name').val(), 
+                        success: function(){                     
+                        }                
+                });            
+            });
+        </script>
        <link rel="stylesheet" href="style.css"> 
        <section id="header">
         <a href="#"> <img src="img\logo\logo.PNG" class="logo" alt="alt"/></a>

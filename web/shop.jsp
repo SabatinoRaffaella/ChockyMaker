@@ -35,7 +35,7 @@
     <table> <caption>List of products available</caption> <th>Product</th>
 	<%
 	  if (products != null) {
-          for(Product p: products.getProducts()){       
+          for(Product p: products.getProducts()){
 	%>
         <tr><td><%=p.getBrand()%> <%=p.getName()%> <%=p.getAmount()%>gr.</td></tr>
         <tr><td><img alt="alt" src="img/prodotti/<%=p.getImg()%>"/></td></tr>
@@ -46,6 +46,7 @@
         </tr>
         <tr>
         <td><%=p.getPrice()%>$</td>       
+        
         <td><a href="CheckSession?action=delete&id=<%=p.getId()%>">Delete</a></td>
         <td><a href="CheckSession?action=read&id=<%=p.getId()%>">Details</a></td>
         <td><a href="CheckSession?action=addC&id=<%=p.getId()%>">Add to cart</a></td>

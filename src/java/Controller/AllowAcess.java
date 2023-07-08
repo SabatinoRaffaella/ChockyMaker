@@ -80,6 +80,7 @@ public class AllowAcess extends HttpServlet {
             catch(SQLException se){
                 request.setAttribute("errormsg", se.getMessage());
                 response.sendRedirect("error/error.jsp");
+                return;
             }  
             //Inizialmenmte con la query sql usiamo nome utente e password per controllare
             // se l'utente è presente nel Database.

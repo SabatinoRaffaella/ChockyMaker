@@ -11,6 +11,7 @@ public class Product implements Serializable{
     private double amount;
     private double price;
     private String img;
+    private boolean deleted;
     public Product() {
         addedToCart= 0;
         id = -1;
@@ -22,7 +23,7 @@ public class Product implements Serializable{
 	amount=0.0;
 	img="";
     }
-    public Product(int id,String name, String desc, String brand, double p, int q,double pr_amouunt,String imgpath){
+    public Product(int id,String name, String desc, String brand, double p, int q,double pr_amouunt,String imgpath,boolean deleted){
         this.id = id;
         this.name= name;
         this.description= desc;
@@ -31,6 +32,15 @@ public class Product implements Serializable{
         this.amount = pr_amouunt;
         this.img = imgpath;
         this.brand = brand;
+        this.deleted = deleted;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
     public double getPrice() {
         return price;

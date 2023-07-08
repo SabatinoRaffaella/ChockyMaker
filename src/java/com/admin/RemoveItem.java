@@ -44,12 +44,14 @@ public class RemoveItem extends HttpServlet {
         PreparedStatement ps;
         Connection cn= mg.getConnection();
             int id_pr = (Integer.parseInt(request.getParameter("id")));                   
-            String removeSQL = "Delete from Prodotto where Prodotto.id = ?";
+            String removeSQL = "update Prodotto set deleted=? where Prodotto.id = ?";
             ps = cn.prepareStatement(removeSQL);          
             try {
-                ps.setInt(1,id_pr);
+                ps.setBoolean(1, true);
+                ps.setInt(2,id_pr);
                 Listed lis = (Listed)request.getSession().getAttribute("listed");
-                lis.fetchByPrId(id_pr).setQuantity(0);       
+                lis.fetchByPrId(id_pr).setQuantity(0);
+                lis.fetchByPrId(id_pr).setDeleted(true);
                 ps.executeUpdate();
                 cn.commit();       
                 response.sendRedirect("admin/ViewProduct.jsp");               

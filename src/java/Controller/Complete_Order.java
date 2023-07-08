@@ -1,6 +1,7 @@
 package Controller;
 
 import Model.Cart;
+import Model.Product;
 import Model.User;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -90,7 +91,9 @@ public class Complete_Order extends HttpServlet {
                 Cart orderL = new Cart(u.getUsername());
                 while(i<usercart.getProducts().size()){
                     pt = cn.prepareStatement("insert into Dettagli_Ordine (id_ordine,id_prodotto,quantità,sub_totale,metodo_pagamento) VALUES (?,?,?,?,?)");
-                    int addedtoc = usercart.fetchByOrder(i).getAddedToCart();
+                    Product p = usercart.fetchByOrder(i);
+                    if(!p.isDeleted()){
+                    int addedtoc = p.getAddedToCart();
                     int idp = usercart.fetchByOrder(i).getId();
                     pt.setInt(1, order_id);
                     pt.setInt(2,idp);
@@ -99,13 +102,15 @@ public class Complete_Order extends HttpServlet {
                     pt.setString(5, po);
                     pt.executeUpdate();
                     
-                    orderL.addProduct(usercart.fetchByOrder(i),idp);
+                    orderL.addProduct(usercart.fetchByOrder(i));
+                    }
                     i++;                  
                 }              
             cn.commit();      
+            
             if(usercart.emptyCart()){ 
             request.getSession().setAttribute("usercart", usercart);
-            response.sendRedirect("mailbox.jsp");
+            response.sendRedirect("Orders");
             }
             else{
                 request.getSession().setAttribute("errormsg", "There was an error during the order: "+ "\n"+usercart.getProducts().size());

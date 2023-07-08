@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" import Model.Product,Model.Cart>
 <script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha512-BgwIN3PpXLkbg6HyWOm0LO0m1sBZr6gEHLStmyYQ+3WtPcbEJkhC5lH1iISIYI0pWi+L6snpMjPQ99mrWPagew==" crossorigin="anonymous"></script>
 <title>Admin Dashboard</title>
+<link rel="stylesheet" href="../table.css">
 </head>
 <%  Listed products= (Listed)request.getSession().getAttribute("listed");
     %>
@@ -19,7 +20,7 @@
     <jsp:include page="navibar.jsp"  flush="true"/> 
     <h2>Details</h2>
     <section id="cart" class="section-p1">	
-        <table border="1">           
+        <table border="1" id="showpr">           
             <tr>
             <th>Remove</th>
             <th>Id</th>

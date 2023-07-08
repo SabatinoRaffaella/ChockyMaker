@@ -41,6 +41,7 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
                 p.setAmount(rs.getDouble("pr_amouunt"));
                 p.setQuantity(rs.getInt("quantity"));
                 p.setImg(rs.getString("prod_image"));
+                p.setDeleted(rs.getBoolean("deleted"));
                 listed.addProduct(p);
             }           
         } 
@@ -56,18 +57,27 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         }
         
         request.getSession().setAttribute("listed", listed);
-        Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
-        if(isAdmin==null){
+        
+        String comeback= (String)request.getSession().getAttribute("comeback");
+        if(comeback==null){
+            Boolean isAdmin = (Boolean) request.getSession().getAttribute("isAdmin");
+            if(isAdmin==null ){
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
             dispatcher.forward(request,response);
             return;
-        } 
-	if(isAdmin){
+            } 
+            if(isAdmin){
             response.sendRedirect("admin/ViewProduct.jsp");
-        }
+            }
+            else{
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
+            dispatcher.forward(request,response); 
+            }
+        } 
         else{
-	RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp");
-        dispatcher.forward(request,response);    
+            request.getSession().setAttribute("comeback", null);
+            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(comeback);
+            dispatcher.forward(request,response);        
         }
     }   
    @Override

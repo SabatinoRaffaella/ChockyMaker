@@ -2,7 +2,6 @@ package Controller;
 import Model.Cart;
 import Model.Listed;
 import Model.Product;
-import Model.User;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,26 +30,21 @@ public class CheckSession extends HttpServlet {
         try{
            String action = request.getParameter("action");	   
             int id = Integer.parseInt(request.getParameter("id"));
-            id= id-1;
             Listed list = (Listed)request.getSession().getAttribute("listed");
-            Product selected = (list.fetchById(id));
-            id++;
-            if(action.matches("addC")){      
-                if(usercart.fetchById(id).getQuantity()!=0){
+            Product selected = (list.fetchByPrId(id));
+            if(action.matches("addC")){       
+                if(selected.getQuantity()!=0 && !selected.isDeleted()){
                     if(usercart.checkIfPresent(selected)){ 
                         usercart.fetchById(id).setAddedToCart(1);
-                   
-                    }
-                    else usercart.addProduct(selected,id);
+                    }                                           
+                    else usercart.addProduct(selected);
+                    request.getSession().setAttribute("usercart", usercart);
+                    request.getSession().setAttribute("msg","the element was added succesfully to the cart");
                 }
-                else{
-                    request.getSession().setAttribute("errormsg", "The product selected is currently unavailable");
-                    response.sendRedirect("shop.jsp");
-                    return;
-                }             
-                request.getSession().setAttribute("usercart", usercart);
-                request.getSession().setAttribute("msg","the element was added succesfully to the cart");                
-            }
+                else {
+                    request.getSession().setAttribute("msg", "The product selected is currently unavailable");            
+                }         
+            }   
             if(action.matches("delete")){
                 if(!usercart.checkIfPresent(selected)) request.getSession().setAttribute("msg","the selected item isn't int the cart");
                 else{ 
