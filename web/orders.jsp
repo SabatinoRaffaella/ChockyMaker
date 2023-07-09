@@ -29,14 +29,17 @@
             ArrayList<Order_Details> odt = od.getDt();
          %>
          <% for(Order_Details t : odt){ %>
-            <tr><td>Id del prodotto Acquistato: </td></tr>
             <tr><td>Quantità Pr Acquistata: <%=t.getQt_pr()%></td></tr>
             <tr><td>Metodo di Pagamento: <%=t.getPaymn()%></td></tr>
             <tr><td>SubTotale: <%=t.getSub_p()%></td></tr>
             <tr>
             <%Product p=t.getP();%>
             <%if(p!=null){ %>
-            <td><%=p.toString()%></td>
+            <td><%=p.getName()%></td>
+            <td><%=p.getBrand()%></td>
+            <tr><td><img alt="alt" src="img/prodotti/<%=p.getImg()%>"/></td></tr>
+            <td><%=p.getDescription()%></td>
+            <td><%=p.getAmount()%></td>
             </tr>
            <% } %>           
        

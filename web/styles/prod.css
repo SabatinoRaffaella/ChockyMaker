@@ -17,7 +17,7 @@ form ol li input{
 }
 
 form ol li{
-	display: table-data;
+	display:  table;
 	border: 1px solid burlywood;
 	margin: 5px 10px;
 }

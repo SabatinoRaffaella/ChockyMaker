@@ -9,8 +9,24 @@
             <link rel="stylesheet" href="../style.css">
             <script>
             function validate(){
-		if(!validateName() || !validateDesc() || !validateBrand() || !validateImgPath()) return false;
+		if(!validatePrice() || !validateName() || !validateDesc() || !validateBrand() || !validateImgPath()) return false;
            }
+           function validatePrice(){
+                let n= document.forms["products"]["pricetag"].value;
+                var pattern=/^(?:0\.[0-9]{1,2}|[1-9]{1}[0-9]*(\.[0-9]{1,2})?|0)$/;
+                if(!n.match(pattern)){
+                    document.getElementById("error").innerHTML="didn't add price in a valid format (n.n) \n";
+                    error.classList.remove("valid");
+                    error.classList.add("invalid");				
+                    return false;
+                }
+                else{
+                 document.getElementById("error").innerHTML="OK";
+                error.classList.remove("invalid");									
+                error.classList.add("valid");	
+                return true;					
+                }	
+            }
            function validateImgPath(){
                 let n= document.forms["products"]["img"].value;
                 var pattern=/^[A-Za-z]*[.][f-p]{3}$/;
@@ -95,7 +111,7 @@
                     <input type="text" name="description" onchange="validateDesc()" required>
               </li>			  
               <li><p>  Enter the price of the product to be listed: </p>
-                    <input type="text" name="pricetag" required>
+                    <input type="text" name="pricetag" onchange="validatePrice()" required>
               </li>			  
               <li><p>  Enter the amount left in stock of product to be listed: </p>
                     <input type="number" name="quantity" required>

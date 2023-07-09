@@ -18,7 +18,7 @@ if (errors != null){
 	}
 }
 %>
-<form action="AllowAcess" method="post"> 
+<form action="AllowAcess" method="post" id="loginform"> 
 <fieldset>
      <legend>Login Custom</legend>
      <label for="username">Username</label>

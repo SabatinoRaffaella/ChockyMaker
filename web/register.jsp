@@ -28,7 +28,7 @@
                 }
                 else{
                     document.getElementById("error").innerHTML="OK";
-                    error.classList.remove("invalid")									
+                    error.classList.remove("invalid");									
                     error.classList.add("valid");	
 		return true;					
 		}		
@@ -44,7 +44,7 @@
 		}
 		else{
                     document.getElementById("error").innerHTML="OK";	
-                    error.classList.remove("invalid")									
+                    error.classList.remove("invalid");									
                     error.classList.add("valid");	
                 return true;					
 		}		

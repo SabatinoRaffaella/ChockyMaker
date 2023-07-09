@@ -96,7 +96,7 @@ public class AllowAcess extends HttpServlet {
                 generateNewSession(request);                
                 if(ruolo.matches("admin")){
                     request.getSession().setAttribute("isAdmin", Boolean.TRUE); //inserisco il token nella sessione
-                    response.sendRedirect("FetchProductCSide");
+                    response.sendRedirect("admin/ViewProduct.jsp");
                 }
                 else if (ruolo.matches("cliente")){ //user
                     request.getSession().setAttribute("isAdmin", Boolean.FALSE); //inserisco il token nella sessione
