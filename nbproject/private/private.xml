@@ -5,8 +5,10 @@
         <group>
             <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/orders.jsp</file>
             <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/src/java/Controller/Complete_Order.java</file>
-            <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/table.css</file>
+            <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/admin/ViewProduct.jsp</file>
+            <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/admin/ViewOrderList.jsp</file>
             <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/shop.jsp</file>
+            <file>file:/C:/Users/raffy/Documents/NetBeansProjects/ChockyMaker/web/cart.jsp</file>
         </group>
     </open-files>
 </project-private>

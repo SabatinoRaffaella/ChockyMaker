@@ -16,6 +16,20 @@
 	<script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha512-BgwIN3PpXLkbg6HyWOm0LO0m1sBZr6gEHLStmyYQ+3WtPcbEJkhC5lH1iISIYI0pWi+L6snpMjPQ99mrWPagew==" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
 </head>
+ <script type="text/javascript">
+    $(document).ready(function(){
+    $(document).on('keyup', '#search', function() {
+        var tos = $("#search").val();
+         $.ajax({
+               type: "post",
+               url: "SearchProd?search="+tos,
+               async: true,
+               success: $('#showpr').load(' #showpr')
+           });   
+        });
+    }); //END document.ready
+ 
+    </script>        
     <body>
         <jsp:include page="jsptofetch/header.jsp"  flush="true"/>
 	<section id="page-header" >
@@ -30,13 +44,19 @@
        </div>           
     <%  Listed products= (Listed)request.getSession().getAttribute("listed");
     %>        
+    <form action="SearchProd" method="post">
+        <input name="search" id="search" type="text" placeholder="insert item to search">
+        <input type="submit" value="submit">       
+    </form>
 <h2>Details</h2>
 <section id="showpr" class="section-p1">	
     <table> <caption>List of products available</caption> <th>Product</th>
 	<%
 	  if (products != null) {
           for(Product p: products.getProducts()){
-	%>
+            String toSearch = (String) request.getSession().getAttribute("toSearch");
+            if(toSearch.matches("showall") || p.getName().startsWith(toSearch) ){
+	%>      
         <tr><td><%=p.getBrand()%> <%=p.getName()%> <%=p.getAmount()%>gr.</td></tr>
         <tr><td><img alt="alt" src="img/prodotti/<%=p.getImg()%>"/></td></tr>
         <tr> 
@@ -51,8 +71,9 @@
         <td><a href="CheckSession?action=read&id=<%=p.getId()%>">Details</a></td>
         <td><a href="CheckSession?action=addC&id=<%=p.getId()%>">Add to cart</a></td>
         </tr>    	
-	<%            
-            }
+	<%
+          }          
+         }
         }
 	%>
         </table>

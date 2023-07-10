@@ -23,7 +23,7 @@
                
               %>                
         <section id="showpr" class="section-p1">
-            <table>
+            <table><caption>List of the products added to the cart</caption>
                 <th>
                     <tr>
                         <td>Remove</td>     

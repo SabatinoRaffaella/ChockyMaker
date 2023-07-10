@@ -1,7 +1,6 @@
 <%@page import="Model.Listed"%>
 <%@page import="Model.Product"%>
 <%@page import="java.util.ArrayList"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,10 +77,10 @@
     <p><a href="<%=request.getContextPath()%>/Logout">Logout</a></p>
     <h1>Welcome in the amdinistration panel!</h1>
     <p>Here you can manage products within the database...</p>
-    <jsp:include page="navibar.jsp"  flush="true"/> 
+    <%@ include file="navibar.jsp" %> 
     <h2>Details</h2>
     <section id="product1" class="section-p1">	
-        <table border="1" id="showpr">           
+        <table  border="1" id="showpr"><caption>List of products available</caption>           
             <tr>
             <th>Remove</th>
             <th>Id</th>

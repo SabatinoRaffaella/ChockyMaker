@@ -4,15 +4,14 @@
     Author     : raffy
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Navibar admin page</title>
     </head>
     <body>
           <p> <a href="AddProduct.jsp">Add a product</a></p> 
           <p> <a href="ViewProduct.jsp">View Product List</a></p>
+          <p> <a href="ViewOrderList.jsp">View Orders List</a></p>
     </body>
 </html>

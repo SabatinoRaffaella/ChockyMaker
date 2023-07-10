@@ -19,10 +19,18 @@ protected void processRequest(HttpServletRequest request, HttpServletResponse re
         throws ServletException, IOException{  
 	Listed listed = (Listed)request.getSession().getAttribute("listed");       
         if(listed==null || listed.getProducts().isEmpty()){
-          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/FetchProductCSide"); 
+          RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/FetchProductCSide");
+          String tos = (String)request.getSession().getAttribute("toSearch");
+          if(tos==null){
+            request.getSession().setAttribute("toSearch","showall");
+          }
           dispatcher.forward(request,response);
         } 
         else {
+            String tos = (String)request.getSession().getAttribute("toSearch");
+            if(tos==null){
+            request.getSession().setAttribute("toSearch","showall");
+            }
             RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/shop.jsp"); 
               dispatcher.forward(request,response);
         }

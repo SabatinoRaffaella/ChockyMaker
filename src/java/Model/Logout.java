@@ -13,11 +13,10 @@ public class Logout extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        request.getSession().setAttribute("isAdmin", false);
-        
-        //User u = new User(0,"","","","","");        
+        request.getSession().setAttribute("isAdmin", false);      
         request.getSession().setAttribute("user", null);
-        request.getSession().setAttribute("isloggedIn","no");     
+        request.getSession().setAttribute("isloggedIn","no");
+        request.getSession().setAttribute("orders", null);
         response.sendRedirect("index.jsp");
     }
 

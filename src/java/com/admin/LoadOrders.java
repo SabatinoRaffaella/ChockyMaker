@@ -1,5 +1,6 @@
-package Controller;
+package com.admin;
 
+import Controller.DriverManagerConnectionPool;
 import Model.Listed;
 import Model.Order;
 import Model.Order_Details;
@@ -18,8 +19,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-@WebServlet(name = "FetchOrders", urlPatterns = {"/FetchOrders"})
-public class FetchOrders extends HttpServlet {
+@WebServlet(name = "LoadOrders", urlPatterns = {"/LoadOrders"})
+public class LoadOrders extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -28,10 +29,10 @@ public class FetchOrders extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet FetchOrders</title>");            
+            out.println("<title>Servlet LoadOrders</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet FetchOrders at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LoadOrders at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -41,30 +42,29 @@ public class FetchOrders extends HttpServlet {
             throws ServletException, IOException {
         DriverManagerConnectionPool mg= new DriverManagerConnectionPool();    
         ArrayList<Order> orders= new ArrayList<>();
-        User u = (User)request.getSession().getAttribute("user");
-        if(u==null){
-            request.setAttribute("errors", "you need to be logged-in");
-            response.sendRedirect("login.jsp");
-            return;
-        } 
         try{
             int order_id=0;
-            int client_id= u.getId();
             LocalDate shipp_date=null;
             LocalDate order_date=null;
             String deliv_address="";   
             int order_am = 0;
             Listed l = (Listed)request.getSession().getAttribute("listed");
                 if(l==null){
-                    request.getSession().setAttribute("comeback", "/FetchOrders");
+                    request.getSession().setAttribute("comeback", "/LoadOrders");
                     response.sendRedirect("FetchProductCSide");
                     return;
                 }
-            Connection cn = mg.getConnection();         
-            PreparedStatement ps = cn.prepareStatement("select * from Ordine where id_cliente=?");
-            ps.setInt(1, client_id);
-            ResultSet rs = ps.executeQuery();
+            Connection cn = mg.getConnection(); 
+            PreparedStatement ps = cn.prepareStatement("select * from utente, ordine where utente.id = ordine.id_cliente");
+            ResultSet rs= ps.executeQuery();
             while(rs.next()){
+                int id_u = rs.getInt("id_cliente");
+                String email = rs.getString("email");
+                String name = rs.getString("nome");
+                String surname = rs.getString("cognome");
+                String address = rs.getString("indirizzo");
+                String phoneNumber = rs.getString("telefono");
+                User u = new User(id_u,email,name,surname,address,phoneNumber);
                 order_id = rs.getInt("id_ordine");
                 shipp_date = rs.getObject("data_spedizione",LocalDate.class);               
                 order_date = rs.getObject("data_ordine",LocalDate.class);
@@ -97,15 +97,10 @@ public class FetchOrders extends HttpServlet {
                 i++;
             }             
             request.getSession().setAttribute("orders", orders);
-            RequestDispatcher dispatcher = getServletContext().getRequestDispatcher("/Orders"); 
-            dispatcher.forward(request,response);
+            response.sendRedirect("admin/ViewOrderList.jsp");  
         }catch(SQLException sql){
             request.getSession().setAttribute("errormsg", sql.getMessage());
             response.sendRedirect("error/error.jsp");
-        }
-        catch(NullPointerException nil){
-            request.getSession().setAttribute("msg", "there aren't any orders already done");
-            response.sendRedirect("Shop");
         }
     }
     @Override

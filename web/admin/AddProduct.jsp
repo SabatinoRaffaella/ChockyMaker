@@ -96,7 +96,7 @@
 		</script>
     </head>
     <body>
-     <jsp:include page="navibar.jsp"  flush="true"/>     
+    <%@ include file="navibar.jsp" %>  
      <!-- Prima effetueremò la validazione chiamando uno script che una volta superati tutti i controlli
          restituirà true e permetterà al form di essere inviato al database !-->
         <div class="section-p1"><form name="products" method="post"  action="../AddDataDatabase">
