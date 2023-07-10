@@ -63,7 +63,7 @@
                <% }}%>
         </div>           
         <div id="mobile">
-        <a href="cart.html"><img src="img\somecart2.png" height="60" width="60" alt="alt"/></a>    
+        <a href="cart.jsp"><img src="img\somecart2.png" height="60" width="60" alt="alt"/></a>    
         <i id="bar" class="fas fa-outdent"><script src="script/script.js"></script> </i>            
         </div>
         <br>        
